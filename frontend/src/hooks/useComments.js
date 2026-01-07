@@ -7,9 +7,6 @@ import {
 import { commentActions } from "../redux/slices/commentSlice";
 import { buildCommentTree } from "../utils/buildCommentTree";
 
-/**
- * Hook for fetching comments by post
- */
 export const useFetchComments = (postId) => {
   const [loading, setLoading] = useState(false);
   const [refresh, setRefresh] = useState(false);

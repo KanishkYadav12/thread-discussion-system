@@ -1,8 +1,3 @@
-/**
- * Comment Actions
- * Thunk functions for comment-related operations
- */
-
 import * as commentAPI from "../api/commentAPI";
 import { commentActions } from "../slices/commentSlice";
 

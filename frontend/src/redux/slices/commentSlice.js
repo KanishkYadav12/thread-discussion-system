@@ -1,8 +1,3 @@
-/**
- * Comment Slice
- * Manages comment-related state with separate states for each operation
- */
-
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialCommentState = {

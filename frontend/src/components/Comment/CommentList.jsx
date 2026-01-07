@@ -1,8 +1,3 @@
-/**
- * CommentList Component
- * Container for displaying all comments with nested structure
- */
-
 import React from "react";
 import { useFetchComments } from "../../hooks/useComments";
 import CommentTree from "./CommentTree";

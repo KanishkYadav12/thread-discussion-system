@@ -1,8 +1,3 @@
-/**
- * CommentForm Component
- * Form for adding new comments or replies
- */
-
 import React, { useState, useEffect } from "react";
 import { useCreateComment } from "../../hooks/useComments";
 import { VALIDATION } from "../../utils/constants";

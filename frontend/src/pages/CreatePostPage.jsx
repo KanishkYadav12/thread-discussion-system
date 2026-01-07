@@ -1,7 +1,3 @@
-/**
- * CreatePostPage Component
- */
-
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import CreatePostForm from "../components/Post/CreatePostForm";

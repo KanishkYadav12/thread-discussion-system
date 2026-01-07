@@ -1,8 +1,3 @@
-/**
- * NotFoundPage Component
- * 404 error page for invalid routes
- */
-
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { BiError, BiHome } from "react-icons/bi";

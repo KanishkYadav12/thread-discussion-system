@@ -1,10 +1,3 @@
-/**
- * Loader Component
- * Reusable loading spinner with different sizes
- */
-
-import React from "react";
-
 const Loader = ({ size = "md", text = "", fullScreen = false }) => {
   const sizeConfig = {
     sm: { width: "24px", height: "24px", borderWidth: "2px" },

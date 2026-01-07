@@ -1,14 +1,3 @@
-/**
- * Comment Tree Builder
- * Converts flat array of comments into nested tree structure
- * Implements efficient O(n) algorithm using hash map
- */
-
-/**
- * Build a nested comment tree from flat array
- * @param {Array} comments - Flat array of comment objects
- * @returns {Array} Nested array of comments with children property
- */
 export const buildCommentTree = (comments) => {
   if (!comments || !Array.isArray(comments) || comments.length === 0) {
     return [];
@@ -48,12 +37,6 @@ export const buildCommentTree = (comments) => {
   }
 };
 
-/**
- * Flatten a comment tree back to a flat array
- * Useful for processing or counting total comments
- * @param {Array} commentTree - Nested comment tree
- * @returns {Array} Flat array of all comments
- */
 export const flattenCommentTree = (commentTree) => {
   const flatArray = [];
 
@@ -72,11 +55,6 @@ export const flattenCommentTree = (commentTree) => {
   return flatArray;
 };
 
-/**
- * Count total comments including nested replies
- * @param {Array} commentTree - Nested comment tree
- * @returns {number} Total number of comments
- */
 export const countComments = (commentTree) => {
   let count = 0;
 
@@ -93,11 +71,6 @@ export const countComments = (commentTree) => {
   return count;
 };
 
-/**
- * Find maximum depth of comment nesting
- * @param {Array} commentTree - Nested comment tree
- * @returns {number} Maximum nesting depth
- */
 export const getMaxDepth = (commentTree) => {
   const findDepth = (comments, currentDepth = 0) => {
     if (!comments || comments.length === 0) return currentDepth;
@@ -119,12 +92,6 @@ export const getMaxDepth = (commentTree) => {
   return findDepth(commentTree);
 };
 
-/**
- * Find a specific comment by ID in the tree
- * @param {Array} commentTree - Nested comment tree
- * @param {string} commentId - Comment ID to find
- * @returns {Object|null} Comment object or null if not found
- */
 export const findCommentById = (commentTree, commentId) => {
   const search = (comments) => {
     for (const comment of comments) {

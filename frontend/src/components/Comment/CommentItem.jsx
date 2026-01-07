@@ -1,8 +1,3 @@
-/**
- * CommentItem Component - Beautiful Nested Comments
- * Displays individual comment with reply functionality
- */
-
 import React, { useState } from "react";
 import CommentForm from "./CommentForm";
 import { formatRelativeTime } from "../../utils/formatDate";

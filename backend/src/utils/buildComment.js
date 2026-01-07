@@ -1,8 +1,3 @@
-/**
- * Converts a flat array of comments into a nested tree structure
- * @param {Array} comments - Flat array of comments from database
- * @returns {Array} - Nested array of comments with children
- */
 export const buildCommentTree = (comments) => {
   const commentMap = {};
   const tree = [];

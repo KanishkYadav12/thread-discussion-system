@@ -1,15 +1,6 @@
-/**
- * Post Actions
- * Thunk functions for post-related operations
- * Pattern: Similar to clientAction architecture
- */
-
 import * as postAPI from "../api/postAPI";
 import { postActions } from "../slices/postSlice";
 
-/**
- * Get all posts
- */
 export const getAllPosts =
   ({ page = null, limit = null } = {}) =>
   async (dispatch) => {
@@ -31,9 +22,6 @@ export const getAllPosts =
     }
   };
 
-/**
- * Get single post by ID
- */
 export const getPost = (postId) => async (dispatch) => {
   try {
     console.log("getPost-request", postId);
@@ -53,9 +41,6 @@ export const getPost = (postId) => async (dispatch) => {
   }
 };
 
-/**
- * Create new post
- */
 export const createPost = (postData) => async (dispatch) => {
   try {
     console.log("createPost-request", postData);
@@ -83,9 +68,6 @@ export const createPost = (postData) => async (dispatch) => {
   }
 };
 
-/**
- * Delete post
- */
 export const deletePost = (postId) => async (dispatch) => {
   try {
     console.log("deletePost-request", postId);

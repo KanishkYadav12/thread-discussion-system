@@ -1,8 +1,3 @@
-/**
- * ErrorMessage Component
- * Displays error messages with optional retry functionality
- */
-
 import React from "react";
 import { BiError } from "react-icons/bi";
 import { MdRefresh } from "react-icons/md";

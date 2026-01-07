@@ -1,9 +1,3 @@
-/**
- * Post Slice
- * Manages post-related state with separate states for each operation
- * Pattern: Similar to clientSlice architecture
- */
-
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialPostState = {

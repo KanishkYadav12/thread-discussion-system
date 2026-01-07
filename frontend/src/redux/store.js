@@ -1,7 +1,3 @@
-/**
- * Redux Store Configuration
- */
-
 import { configureStore } from "@reduxjs/toolkit";
 import { postReducer } from "./slices/postSlice";
 import { commentReducer } from "./slices/commentSlice";

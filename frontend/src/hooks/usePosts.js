@@ -1,17 +1,8 @@
-/**
- * usePosts Hook
- * Custom hook for managing posts with Redux
- * Pattern: Similar to useFetchClients architecture
- */
-
 import { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllPosts, getPost, createPost } from "../redux/actions/postActions";
 import { postActions } from "../redux/slices/postSlice";
 
-/**
- * Hook for fetching all posts
- */
 export const useFetchPosts = ({ currentPage = 1, pageSize = 10 } = {}) => {
   const [loading, setLoading] = useState(false);
   const [refresh, setRefresh] = useState(false);

@@ -1,8 +1,3 @@
-/**
- * EmptyState Component
- * Displays empty state with icon and optional action button
- */
-
 import React from "react";
 import {
   BiMessageSquareDetail,
@@ -10,14 +5,7 @@ import {
   BiSearchAlt,
 } from "react-icons/bi";
 
-/**
- * @param {string} type - Type of empty state: 'posts', 'comments', 'search' (default: 'posts')
- * @param {string} title - Custom title (optional)
- * @param {string} message - Custom message (optional)
- * @param {Object} action - Action button config { label, onClick }
- */
 const EmptyState = ({ type = "posts", title, message, action }) => {
-  // Predefined configurations for different types
   const configs = {
     posts: {
       icon: BiFileBlank,
