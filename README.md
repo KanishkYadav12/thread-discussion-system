@@ -740,34 +740,7 @@ Contributions are welcome! Here's how you can help:
 
 ---
 
-## 📝 License
 
-This project is licensed under the **MIT License**.
-```
-MIT License
-
-Copyright (c) 2024 Kanishk Yadav
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-```
-
----
 
 ## 👨‍💻 Author
 
@@ -779,55 +752,14 @@ SOFTWARE.
 
 ---
 
-## 🙏 Acknowledgments
 
-- **React Team** - For the powerful UI library
-- **Redux Team** - For Redux Toolkit simplifying state management
-- **Tailwind CSS** - For the excellent utility-first framework
-- **MongoDB** - For the flexible NoSQL database
-- **Vercel** - For seamless frontend hosting
-- **Render** - For reliable backend deployment
-- **Open Source Community** - For inspiration and support
 
----
 
-## 🔮 Future Enhancements
 
-### Planned Features
 
-- [ ] **User Authentication** - JWT-based auth with login/signup
-- [ ] **User Profiles** - Custom avatars and profile pages
-- [ ] **Like/Upvote System** - Vote on posts and comments
-- [ ] **Search Functionality** - Search posts by title/content
-- [ ] **Rich Text Editor** - Markdown support for formatting
-- [ ] **Image Uploads** - Attach images to posts
-- [ ] **Real-time Notifications** - WebSocket-based updates
-- [ ] **Dark Mode** - Toggle between light/dark themes
-- [ ] **Email Notifications** - Get notified of replies
-- [ ] **Post Categories** - Organize posts with tags
-- [ ] **Pagination** - Load more posts/comments on demand
-- [ ] **Edit/Delete** - Modify or remove your content
-- [ ] **Report System** - Flag inappropriate content
-- [ ] **Admin Dashboard** - Moderation tools
-- [ ] **Analytics** - Track engagement and activity
-
----
-
-## 📊 Performance
-
-- ⚡ **First Contentful Paint**: < 1.5s
-- 🚀 **Time to Interactive**: < 2.5s
-- 📦 **Bundle Size**: ~150KB (gzipped)
-- 🔄 **API Response Time**: < 200ms (average)
-- 📱 **Lighthouse Score**: 95+ (Performance, Accessibility, Best Practices)
-
----
 
 <div align="center">
 
-### ⭐ If you found this project helpful, please star the repository!
-
-**Made with ❤️ and React**
 
 [Report Bug](https://github.com/KanishkYadav12/thread-discussion-system/issues) · [Request Feature](https://github.com/KanishkYadav12/thread-discussion-system/issues)
 
