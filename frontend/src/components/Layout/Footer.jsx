@@ -1,48 +1,56 @@
-/**
- * Footer Component
- * Application footer with info and links
- */
-
 import React from "react";
-import { BiHeart } from "react-icons/bi";
+import { Link } from "react-router-dom";
+import {
+  BiHeart,
+  BiMessageSquareDetail,
+  BiLogoGithub,
+  BiEnvelope,
+  BiInfoCircle,
+} from "react-icons/bi";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-white border-t border-gray-200 mt-auto">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+    <footer className="mt-auto bg-gradient-to-b from-amber-50/50 to-orange-50/50 border-t border-amber-100">
+      <div className="max-w-7xl mx-auto px-8 py-8">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
+          {/* Brand */}
+          <Link to="/" className="flex items-center gap-3">
+            <div className="w-8 h-8 bg-gradient-to-br from-amber-400 via-orange-400 to-rose-400 rounded-lg flex items-center justify-center">
+              <BiMessageSquareDetail className="w-4 h-4 text-white" />
+            </div>
+            <span className="text-lg font-bold text-gray-800">
+              Thread<span className="text-amber-500">Talk</span>
+            </span>
+          </Link>
+
           {/* Copyright */}
-          <div className="text-sm text-gray-600">
-            <p className="flex items-center gap-1">
-              © {currentYear} ThreadTalk. Built with
-              <BiHeart className="w-4 h-4 text-red-500 inline-block mx-1" />
-              using React & Node.js
-            </p>
-          </div>
+          <p className="flex items-center gap-2 text-sm text-gray-500">
+            © {currentYear} ThreadTalk. Made with
+            <BiHeart className="w-4 h-4 text-rose-400" />
+            using React & Node.js
+          </p>
 
           {/* Links */}
-          <div className="flex items-center gap-6 text-sm">
+          <div className="flex gap-3">
             <a
-              href="https://github.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gray-600 hover:text-blue-600 transition-colors"
+              href="#"
+              className="w-9 h-9 rounded-lg bg-white border border-gray-200 hover:border-amber-300 flex items-center justify-center text-gray-400 hover:text-amber-600 transition-all"
             >
-              GitHub
+              <BiLogoGithub className="w-5 h-5" />
             </a>
             <a
               href="#"
-              className="text-gray-600 hover:text-blue-600 transition-colors"
+              className="w-9 h-9 rounded-lg bg-white border border-gray-200 hover:border-amber-300 flex items-center justify-center text-gray-400 hover:text-amber-600 transition-all"
             >
-              About
+              <BiInfoCircle className="w-5 h-5" />
             </a>
             <a
               href="#"
-              className="text-gray-600 hover:text-blue-600 transition-colors"
+              className="w-9 h-9 rounded-lg bg-white border border-gray-200 hover:border-amber-300 flex items-center justify-center text-gray-400 hover:text-amber-600 transition-all"
             >
-              Contact
+              <BiEnvelope className="w-5 h-5" />
             </a>
           </div>
         </div>

@@ -1,73 +1,63 @@
-/**
- * PostCard Component
- * Displays a single post as a clickable card
- */
-
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { BiMessageSquareDetail, BiTime } from "react-icons/bi";
-import { formatRelativeTime } from "../../utils/formatDate";
+import { BiMessageSquareDetail, BiTime, BiUser } from "react-icons/bi";
 
-/**
- * @param {Object} post - Post object with _id, title, content, createdAt, commentCount
- */
 const PostCard = ({ post }) => {
   const navigate = useNavigate();
 
-  // Truncate content for preview
-  const truncateContent = (text, maxLength = 150) => {
-    if (text.length <= maxLength) return text;
-    return text.substring(0, maxLength).trim() + "...";
-  };
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffInSeconds = Math.floor((now - date) / 1000);
 
-  const handleClick = () => {
-    navigate(`/post/${post._id}`);
+    if (diffInSeconds < 60) return "Just now";
+    if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}m ago`;
+    if (diffInSeconds < 86400)
+      return `${Math.floor(diffInSeconds / 3600)}h ago`;
+    if (diffInSeconds < 604800)
+      return `${Math.floor(diffInSeconds / 86400)}d ago`;
+
+    return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
   };
 
   return (
     <article
-      onClick={handleClick}
-      className="
-        bg-white rounded-lg border border-gray-200
-        p-6 cursor-pointer
-        hover:shadow-lg hover:border-blue-300
-        transition-all duration-200
-        group
-      "
-      role="button"
-      tabIndex={0}
-      onKeyPress={(e) => e.key === "Enter" && handleClick()}
+      onClick={() => navigate(`/post/${post._id}`)}
+      className="bg-white rounded-2xl border border-amber-100 hover:border-amber-300 p-6 cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-amber-100/50 hover:-translate-y-1"
     >
-      {/* Title */}
-      <h2
-        className="
-        text-xl font-semibold text-gray-900 mb-3
-        group-hover:text-blue-600 transition-colors
-        line-clamp-2
-      "
-      >
+      <h3 className="text-lg font-bold text-gray-800 leading-snug line-clamp-2 hover:text-amber-600 transition-colors mb-3">
         {post.title}
-      </h2>
+      </h3>
 
-      {/* Content Preview */}
-      <p className="text-gray-600 mb-4 line-clamp-3">
-        {truncateContent(post.content)}
-      </p>
+      {post.content && (
+        <p className="text-gray-500 text-sm leading-relaxed line-clamp-3 mb-4">
+          {post.content}
+        </p>
+      )}
 
-      {/* Meta Information */}
-      <div className="flex items-center justify-between text-sm text-gray-500">
-        {/* Timestamp */}
-        <div className="flex items-center gap-1">
-          <BiTime className="w-4 h-4" />
-          <time dateTime={post.createdAt}>
-            {formatRelativeTime(post.createdAt)}
-          </time>
+      <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-amber-100 to-orange-100 flex items-center justify-center">
+            <BiUser className="w-4 h-4 text-amber-600" />
+          </div>
+          <span className="text-sm font-medium text-gray-600">
+            {post.author || "Anonymous"}
+          </span>
         </div>
 
-        {/* Comment Count */}
-        <div className="flex items-center gap-1 text-blue-600 font-medium">
-          <BiMessageSquareDetail className="w-4 h-4" />
-          <span>{post.commentCount || 0} comments</span>
+        <div className="flex items-center gap-4 text-gray-400">
+          <div className="flex items-center gap-1.5">
+            <BiMessageSquareDetail className="w-4 h-4" />
+            <span className="text-xs font-medium">
+              {post.commentCount || 0}
+            </span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <BiTime className="w-4 h-4" />
+            <span className="text-xs font-medium">
+              {formatDate(post.createdAt)}
+            </span>
+          </div>
         </div>
       </div>
     </article>

@@ -1,42 +1,46 @@
 @import "tailwindcss";
 
-@theme {
-  --color-primary: #2563eb;
-  --color-secondary: #475569;
-}
-
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-body {
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
-    sans-serif;
-  background-color: #f9fafb;
-  color: #1f2937;
+html,
+body,
+#root {
+  min-height: 100vh;
 }
 
-/* Custom scrollbar */
+body {
+  font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  background: #fffcf5;
+  color: #374151;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.6;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: #fef3c7;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 4px;
+  background: linear-gradient(180deg, #fbbf24, #f97316);
+  border-radius: 5px;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
-
-/* Line clamp for text truncation */
+/* Line clamp */
 .line-clamp-2 {
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -49,4 +53,36 @@ body {
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+/* Focus */
+:focus-visible {
+  outline: 2px solid #fbbf24;
+  outline-offset: 2px;
+}
+
+/* Selection */
+::selection {
+  background-color: rgba(251, 191, 36, 0.3);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Comment depth colors */
+.comment-depth-0 {
+  border-left-color: #fbbf24;
+}
+.comment-depth-1 {
+  border-left-color: #f97316;
+}
+.comment-depth-2 {
+  border-left-color: #fb7185;
+}
+.comment-depth-3 {
+  border-left-color: #a78bfa;
+}
+.comment-depth-4 {
+  border-left-color: #60a5fa;
 }

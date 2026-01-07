@@ -1,8 +1,3 @@
-/**
- * HomePage Component
- * Main landing page displaying all discussion posts
- */
-
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import PostList from "../components/Post/PostList";
@@ -12,46 +7,46 @@ const HomePage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Page Header */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900">
-                Discussion Forum
-              </h1>
-              <p className="text-gray-600 mt-2">
-                Join the conversation and share your thoughts
-              </p>
-            </div>
+    <div className="min-h-screen">
+      {/* Hero Section */}
+      <section className="bg-gradient-to-br from-amber-50 via-orange-50 to-rose-50 py-16 lg:py-24">
+        <div className="max-w-7xl mx-auto px-8 text-center">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-800 mb-6 leading-tight">
+            Where Ideas
+            <span className="block mt-2 bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 bg-clip-text text-transparent">
+              Come to Life
+            </span>
+          </h1>
 
-            {/* Mobile Create Button */}
-            <button
-              onClick={() => navigate("/create")}
-              className="
-                sm:hidden
-                w-12 h-12 rounded-full
-                bg-blue-600 hover:bg-blue-700
-                text-white
-                flex items-center justify-center
-                shadow-lg hover:shadow-xl
-                transition-all duration-200
-                focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
-              "
-              aria-label="Create new post"
-            >
-              <BiPlus className="w-6 h-6" />
-            </button>
-          </div>
+          <p className="text-lg sm:text-xl text-gray-600 mb-10 leading-relaxed max-w-2xl mx-auto">
+            Join our vibrant community to share ideas, ask questions, and
+            connect with people who share your passions.
+          </p>
 
-          {/* Divider */}
-          <div className="border-t border-gray-200 pt-6"></div>
+          <button
+            onClick={() => navigate("/create")}
+            className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-amber-400 via-orange-400 to-rose-400 text-white rounded-full font-bold text-lg shadow-xl shadow-amber-200/50 hover:shadow-2xl hover:scale-105 transition-all duration-300"
+          >
+            <BiPlus className="w-6 h-6" />
+            <span>Start a Discussion</span>
+          </button>
         </div>
+      </section>
 
-        {/* Post List */}
-        <PostList />
-      </div>
+      {/* Posts Section */}
+      <section className="py-12 lg:py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-8">
+          <PostList />
+        </div>
+      </section>
+
+      {/* Mobile FAB */}
+      <button
+        onClick={() => navigate("/create")}
+        className="lg:hidden fixed bottom-6 right-6 w-16 h-16 bg-gradient-to-br from-amber-400 via-orange-400 to-rose-400 text-white rounded-2xl shadow-2xl flex items-center justify-center hover:scale-110 transition-all duration-300 z-50"
+      >
+        <BiPlus className="w-8 h-8" />
+      </button>
     </div>
   );
 };

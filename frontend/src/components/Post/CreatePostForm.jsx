@@ -1,9 +1,3 @@
-/**
- * CreatePostForm Component
- * Form for creating new discussion posts
- * Uses custom hook pattern for state management
- */
-
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCreatePost } from "../../hooks/usePosts";
@@ -12,8 +6,6 @@ import { BiError, BiCheck } from "react-icons/bi";
 
 const CreatePostForm = () => {
   const navigate = useNavigate();
-
-  // Use custom hook
   const { loading, createPost, success, error, resetCreatePost } =
     useCreatePost();
 
@@ -24,12 +16,10 @@ const CreatePostForm = () => {
 
   const [errors, setErrors] = useState({});
 
-  // Reset on mount
   useEffect(() => {
     resetCreatePost();
   }, [resetCreatePost]);
 
-  // Handle successful creation
   useEffect(() => {
     if (success) {
       setTimeout(() => {
@@ -38,7 +28,6 @@ const CreatePostForm = () => {
     }
   }, [success, navigate]);
 
-  // Handle input change
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -54,7 +43,6 @@ const CreatePostForm = () => {
     }
   };
 
-  // Validate form
   const validateForm = () => {
     const newErrors = {};
 
@@ -78,12 +66,9 @@ const CreatePostForm = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  // Handle submit
   const handleSubmit = (e) => {
     e.preventDefault();
-
     if (!validateForm()) return;
-
     createPost({
       title: formData.title.trim(),
       content: formData.content.trim(),
@@ -91,142 +76,142 @@ const CreatePostForm = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto">
-      <div className="bg-white rounded-lg border border-gray-200 p-8 shadow-sm">
-        {/* Header */}
-        <div className="mb-6">
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">
-            Create New Discussion
-          </h1>
-          <p className="text-gray-600">
-            Share your thoughts and start a conversation
-          </p>
-        </div>
+    <div className="bg-white rounded-xl border-2 border-slate-200 shadow-lg p-8">
+      {/* Header */}
+      <div className="mb-8 pb-6 border-b-2 border-slate-100">
+        <h1 className="text-3xl font-bold text-slate-900 mb-2">
+          Create New Discussion
+        </h1>
+        <p className="text-slate-600">
+          Share your thoughts and start a conversation
+        </p>
+      </div>
 
-        {/* Success Message */}
-        {success && (
-          <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg flex items-center gap-2">
-            <BiCheck className="w-5 h-5 text-green-600" />
-            <span className="text-green-800 font-medium">
-              {SUCCESS_MESSAGES.POST_CREATED}
+      {/* Success Message */}
+      {success && (
+        <div className="mb-6 p-4 rounded-lg bg-green-50 border-2 border-green-200 flex items-center gap-3">
+          <BiCheck className="w-6 h-6 text-green-600 flex-shrink-0" />
+          <span className="text-green-800 font-semibold">
+            {SUCCESS_MESSAGES.POST_CREATED}
+          </span>
+        </div>
+      )}
+
+      {/* Error Message */}
+      {error && (
+        <div className="mb-6 p-4 rounded-lg bg-red-50 border-2 border-red-200 flex items-start gap-3">
+          <BiError className="w-6 h-6 text-red-600 flex-shrink-0" />
+          <span className="text-red-800">{error}</span>
+        </div>
+      )}
+
+      {/* Form */}
+      <form onSubmit={handleSubmit} className="space-y-6">
+        {/* Title Field */}
+        <div>
+          <label
+            htmlFor="title"
+            className="block text-sm font-bold text-slate-700 mb-2"
+          >
+            Title *
+          </label>
+          <input
+            type="text"
+            id="title"
+            name="title"
+            value={formData.title}
+            onChange={handleChange}
+            disabled={loading || success}
+            className={`w-full px-4 py-3 rounded-lg bg-white border-2 ${
+              errors.title
+                ? "border-red-300 focus:border-red-500"
+                : "border-slate-200 focus:border-indigo-500"
+            } focus:ring-2 focus:ring-indigo-100 disabled:bg-slate-50 disabled:text-slate-400 transition-all text-base placeholder:text-slate-400`}
+            placeholder="Enter a descriptive title..."
+            maxLength={VALIDATION.POST_TITLE_MAX}
+          />
+          <div className="flex justify-between items-center mt-2">
+            {errors.title ? (
+              <span className="text-sm text-red-600 font-medium">
+                {errors.title}
+              </span>
+            ) : (
+              <span></span>
+            )}
+            <span
+              className={`text-sm font-medium ${
+                formData.title.length > VALIDATION.POST_TITLE_MAX * 0.9
+                  ? "text-red-600"
+                  : "text-slate-500"
+              }`}
+            >
+              {formData.title.length}/{VALIDATION.POST_TITLE_MAX}
             </span>
           </div>
-        )}
+        </div>
 
-        {/* Error Message */}
-        {error && (
-          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-start gap-2">
-            <BiError className="w-5 h-5 text-red-600 mt-0.5" />
-            <span className="text-red-800">{error}</span>
-          </div>
-        )}
-
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Title Field */}
-          <div>
-            <label
-              htmlFor="title"
-              className="block text-sm font-medium text-gray-700 mb-2"
-            >
-              Title *
-            </label>
-            <input
-              type="text"
-              id="title"
-              name="title"
-              value={formData.title}
-              onChange={handleChange}
-              disabled={loading || success}
-              className={`
-                w-full px-4 py-3 rounded-lg border
-                ${errors.title ? "border-red-300" : "border-gray-300"}
-                focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                disabled:bg-gray-50 disabled:text-gray-500
-                transition-colors
-              `}
-              placeholder="Enter a descriptive title..."
-              maxLength={VALIDATION.POST_TITLE_MAX}
-            />
-            <div className="flex justify-between items-center mt-1">
-              {errors.title && (
-                <span className="text-sm text-red-600">{errors.title}</span>
-              )}
-              <span className="text-xs text-gray-500 ml-auto">
-                {formData.title.length}/{VALIDATION.POST_TITLE_MAX}
+        {/* Content Field */}
+        <div>
+          <label
+            htmlFor="content"
+            className="block text-sm font-bold text-slate-700 mb-2"
+          >
+            Content *
+          </label>
+          <textarea
+            id="content"
+            name="content"
+            value={formData.content}
+            onChange={handleChange}
+            disabled={loading || success}
+            rows={12}
+            className={`w-full px-4 py-3 rounded-lg bg-white border-2 ${
+              errors.content
+                ? "border-red-300 focus:border-red-500"
+                : "border-slate-200 focus:border-indigo-500"
+            } focus:ring-2 focus:ring-indigo-100 disabled:bg-slate-50 disabled:text-slate-400 transition-all text-base leading-relaxed resize-none placeholder:text-slate-400`}
+            placeholder="Share your thoughts in detail..."
+            maxLength={VALIDATION.POST_CONTENT_MAX}
+          />
+          <div className="flex justify-between items-center mt-2">
+            {errors.content ? (
+              <span className="text-sm text-red-600 font-medium">
+                {errors.content}
               </span>
-            </div>
+            ) : (
+              <span></span>
+            )}
+            <span
+              className={`text-sm font-medium ${
+                formData.content.length > VALIDATION.POST_CONTENT_MAX * 0.9
+                  ? "text-red-600"
+                  : "text-slate-500"
+              }`}
+            >
+              {formData.content.length}/{VALIDATION.POST_CONTENT_MAX}
+            </span>
           </div>
+        </div>
 
-          {/* Content Field */}
-          <div>
-            <label
-              htmlFor="content"
-              className="block text-sm font-medium text-gray-700 mb-2"
-            >
-              Content *
-            </label>
-            <textarea
-              id="content"
-              name="content"
-              value={formData.content}
-              onChange={handleChange}
-              disabled={loading || success}
-              rows={12}
-              className={`
-                w-full px-4 py-3 rounded-lg border
-                ${errors.content ? "border-red-300" : "border-gray-300"}
-                focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                disabled:bg-gray-50 disabled:text-gray-500
-                transition-colors resize-none
-              `}
-              placeholder="Share your thoughts in detail..."
-              maxLength={VALIDATION.POST_CONTENT_MAX}
-            />
-            <div className="flex justify-between items-center mt-1">
-              {errors.content && (
-                <span className="text-sm text-red-600">{errors.content}</span>
-              )}
-              <span className="text-xs text-gray-500 ml-auto">
-                {formData.content.length}/{VALIDATION.POST_CONTENT_MAX}
-              </span>
-            </div>
-          </div>
-
-          {/* Actions */}
-          <div className="flex gap-3 justify-end pt-4">
-            <button
-              type="button"
-              onClick={() => navigate("/")}
-              disabled={loading || success}
-              className="
-                px-6 py-3 rounded-lg
-                border border-gray-300
-                text-gray-700 font-medium
-                hover:bg-gray-50
-                disabled:opacity-50 disabled:cursor-not-allowed
-                transition-colors
-              "
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              disabled={loading || success}
-              className="
-                px-6 py-3 rounded-lg
-                bg-blue-600 hover:bg-blue-700
-                text-white font-medium
-                disabled:opacity-50 disabled:cursor-not-allowed
-                transition-colors
-                focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
-              "
-            >
-              {loading ? "Creating..." : success ? "Created!" : "Create Post"}
-            </button>
-          </div>
-        </form>
-      </div>
+        {/* Actions */}
+        <div className="flex gap-4 justify-end pt-6 border-t-2 border-slate-100">
+          <button
+            type="button"
+            onClick={() => navigate("/")}
+            disabled={loading || success}
+            className="px-6 py-3 rounded-lg bg-white border-2 border-slate-200 text-slate-700 font-semibold hover:bg-slate-50 hover:border-slate-300 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            disabled={loading || success}
+            className="px-6 py-3 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-indigo-300 transition-all"
+          >
+            {loading ? "Creating..." : success ? "Created ✓" : "Create Post"}
+          </button>
+        </div>
+      </form>
     </div>
   );
 };

@@ -1,12 +1,6 @@
-/**
- * PostDetailPage Component
- * Displays a single post with all its comments
- */
-
-import React, { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useFetchPost } from "../hooks/usePosts";
-import PostDetail from "../components/Post/PostDetail";
+import PostDetail from "../components/Post/PostDetail.jsx";
 import CommentList from "../components/Comment/CommentList";
 import Loader from "../components/common/Loader";
 import ErrorMessage from "../components/common/ErrorMessage";
