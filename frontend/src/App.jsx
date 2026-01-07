@@ -9,9 +9,9 @@ import NotFoundPage from "./pages/NotFoundPage";
 const App = () => {
   return (
     <BrowserRouter>
-      <div className="flex flex-col min-h-screen">
+      <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
         <Header />
-        <main className="flex-1">
+        <main style={{ flex: 1 }}>
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/post/:id" element={<PostDetailPage />} />

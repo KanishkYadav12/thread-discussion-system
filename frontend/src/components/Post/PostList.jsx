@@ -7,7 +7,7 @@ import ErrorMessage from "../common/ErrorMessage";
 import EmptyState from "../common/EmptyState";
 import { BiPlus } from "react-icons/bi";
 
-const PostList = () => {
+const PostList = ({ showHeader = true }) => {
   const navigate = useNavigate();
 
   const { loading, posts, error, setRefresh } = useFetchPosts({
@@ -21,7 +21,14 @@ const PostList = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center py-20">
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: "5rem 0",
+        }}
+      >
         <Loader size="lg" text="Loading discussions..." />
       </div>
     );
@@ -29,7 +36,7 @@ const PostList = () => {
 
   if (error) {
     return (
-      <div className="max-w-2xl mx-auto">
+      <div style={{ maxWidth: "42rem", margin: "0 auto" }}>
         <ErrorMessage message={error} onRetry={handleRetry} />
       </div>
     );
@@ -49,33 +56,97 @@ const PostList = () => {
 
   return (
     <div>
-      {/* Section Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-10">
-        <div>
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-2">
-            Recent Discussions
-          </h2>
-          <p className="text-gray-500">
-            {posts.length} active{" "}
-            {posts.length === 1 ? "discussion" : "discussions"}
-          </p>
-        </div>
-
-        <button
-          onClick={() => navigate("/create")}
-          className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-amber-400 to-orange-400 text-white rounded-full font-semibold text-sm shadow-lg shadow-amber-200/40 hover:shadow-xl hover:scale-105 transition-all duration-300"
+      {showHeader && (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "1rem",
+            marginBottom: "2.5rem",
+          }}
         >
-          <BiPlus className="w-5 h-5" />
-          New Post
-        </button>
-      </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+              flexWrap: "wrap",
+              gap: "1rem",
+            }}
+          >
+            <div>
+              <h2
+                style={{
+                  fontSize: "clamp(1.5rem, 3vw, 1.875rem)",
+                  fontWeight: "700",
+                  color: "#1f2937",
+                  marginBottom: "0.5rem",
+                }}
+              >
+                Recent Discussions
+              </h2>
+              <p style={{ fontSize: "0.875rem", color: "#6b7280" }}>
+                {posts.length} active{" "}
+                {posts.length === 1 ? "discussion" : "discussions"}
+              </p>
+            </div>
+
+            <button
+              onClick={() => navigate("/create")}
+              style={{
+                display: "none", // Hidden by default, shown via media query
+                alignItems: "center",
+                gap: "0.5rem",
+                padding: "0.625rem 1.25rem",
+                background: "linear-gradient(to right, #fbbf24, #fb923c)",
+                color: "white",
+                borderRadius: "9999px",
+                fontWeight: "600",
+                fontSize: "0.875rem",
+                border: "none",
+                cursor: "pointer",
+                boxShadow: "0 10px 15px -3px rgba(251, 191, 36, 0.4)",
+                transition: "all 0.3s ease",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "scale(1.05)";
+                e.currentTarget.style.boxShadow =
+                  "0 20px 25px -5px rgba(251, 191, 36, 0.4)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "scale(1)";
+                e.currentTarget.style.boxShadow =
+                  "0 10px 15px -3px rgba(251, 191, 36, 0.4)";
+              }}
+            >
+              <BiPlus style={{ width: "20px", height: "20px" }} />
+              New Post
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Post Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
+          gap: "1.5rem",
+        }}
+      >
         {posts.map((post) => (
           <PostCard key={post._id} post={post} />
         ))}
       </div>
+
+      <style>{`
+        @media (min-width: 640px) {
+          button[style*="display: none"] {
+            display: inline-flex !important;
+          }
+        }
+      `}</style>
     </div>
   );
 };

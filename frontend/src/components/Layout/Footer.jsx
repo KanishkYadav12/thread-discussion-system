@@ -12,49 +12,176 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="mt-auto bg-gradient-to-b from-amber-50/50 to-orange-50/50 border-t border-amber-100">
-      <div className="max-w-7xl mx-auto px-8 py-8">
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
+    <footer
+      style={{
+        marginTop: "auto",
+        background:
+          "linear-gradient(to bottom, rgba(254, 243, 199, 0.3), rgba(254, 215, 170, 0.3))",
+        borderTop: "1px solid #fde68a",
+      }}
+    >
+      <div
+        style={{
+          maxWidth: "80rem",
+          margin: "0 auto",
+          padding: "2rem",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: "1.5rem",
+          }}
+          className="footer-content"
+        >
           {/* Brand */}
-          <Link to="/" className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-gradient-to-br from-amber-400 via-orange-400 to-rose-400 rounded-lg flex items-center justify-center">
-              <BiMessageSquareDetail className="w-4 h-4 text-white" />
+          <Link
+            to="/"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "0.75rem",
+              textDecoration: "none",
+            }}
+          >
+            <div
+              style={{
+                width: "32px",
+                height: "32px",
+                background:
+                  "linear-gradient(to bottom right, #fbbf24, #fb923c, #fb7185)",
+                borderRadius: "8px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <BiMessageSquareDetail
+                style={{ width: "16px", height: "16px", color: "white" }}
+              />
             </div>
-            <span className="text-lg font-bold text-gray-800">
-              Thread<span className="text-amber-500">Talk</span>
+            <span
+              style={{
+                fontSize: "1.125rem",
+                fontWeight: "700",
+                color: "#1f2937",
+              }}
+            >
+              Thread<span style={{ color: "#f59e0b" }}>Talk</span>
             </span>
           </Link>
 
           {/* Copyright */}
-          <p className="flex items-center gap-2 text-sm text-gray-500">
+          <p
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "0.5rem",
+              fontSize: "0.875rem",
+              color: "#6b7280",
+            }}
+          >
             © {currentYear} ThreadTalk. Made with
-            <BiHeart className="w-4 h-4 text-rose-400" />
+            <BiHeart
+              style={{ width: "16px", height: "16px", color: "#fb7185" }}
+            />
             using React & Node.js
           </p>
 
           {/* Links */}
-          <div className="flex gap-3">
+          <div style={{ display: "flex", gap: "0.75rem" }}>
             <a
               href="#"
-              className="w-9 h-9 rounded-lg bg-white border border-gray-200 hover:border-amber-300 flex items-center justify-center text-gray-400 hover:text-amber-600 transition-all"
+              style={{
+                width: "36px",
+                height: "36px",
+                borderRadius: "8px",
+                background: "white",
+                border: "1px solid #e5e7eb",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "#9ca3af",
+                textDecoration: "none",
+                transition: "all 0.3s ease",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = "#fbbf24";
+                e.currentTarget.style.color = "#f59e0b";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = "#e5e7eb";
+                e.currentTarget.style.color = "#9ca3af";
+              }}
             >
-              <BiLogoGithub className="w-5 h-5" />
+              <BiLogoGithub style={{ width: "20px", height: "20px" }} />
             </a>
             <a
               href="#"
-              className="w-9 h-9 rounded-lg bg-white border border-gray-200 hover:border-amber-300 flex items-center justify-center text-gray-400 hover:text-amber-600 transition-all"
+              style={{
+                width: "36px",
+                height: "36px",
+                borderRadius: "8px",
+                background: "white",
+                border: "1px solid #e5e7eb",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "#9ca3af",
+                textDecoration: "none",
+                transition: "all 0.3s ease",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = "#fbbf24";
+                e.currentTarget.style.color = "#f59e0b";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = "#e5e7eb";
+                e.currentTarget.style.color = "#9ca3af";
+              }}
             >
-              <BiInfoCircle className="w-5 h-5" />
+              <BiInfoCircle style={{ width: "20px", height: "20px" }} />
             </a>
             <a
               href="#"
-              className="w-9 h-9 rounded-lg bg-white border border-gray-200 hover:border-amber-300 flex items-center justify-center text-gray-400 hover:text-amber-600 transition-all"
+              style={{
+                width: "36px",
+                height: "36px",
+                borderRadius: "8px",
+                background: "white",
+                border: "1px solid #e5e7eb",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "#9ca3af",
+                textDecoration: "none",
+                transition: "all 0.3s ease",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = "#fbbf24";
+                e.currentTarget.style.color = "#f59e0b";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = "#e5e7eb";
+                e.currentTarget.style.color = "#9ca3af";
+              }}
             >
-              <BiEnvelope className="w-5 h-5" />
+              <BiEnvelope style={{ width: "20px", height: "20px" }} />
             </a>
           </div>
         </div>
       </div>
+
+      <style>{`
+        @media (min-width: 640px) {
+          .footer-content {
+            flex-direction: row !important;
+          }
+        }
+      `}</style>
     </footer>
   );
 };

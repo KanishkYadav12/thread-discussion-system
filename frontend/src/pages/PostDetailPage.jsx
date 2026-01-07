@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useFetchPost } from "../hooks/usePosts";
-import PostDetail from "../components/Post/PostDetail.jsx";
+import PostDetail from "../components/Post/PostDetail";
 import CommentList from "../components/Comment/CommentList";
 import Loader from "../components/common/Loader";
 import ErrorMessage from "../components/common/ErrorMessage";
@@ -10,7 +10,6 @@ const PostDetailPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  // Use custom hook
   const { loading, post, error, refetch } = useFetchPost(id);
 
   const handleBack = () => {
@@ -18,19 +17,50 @@ const PostDetailPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div
+      style={{
+        minHeight: "100vh",
+        background: "linear-gradient(to bottom, #fffbf5, #fef3c7)",
+      }}
+    >
+      <div
+        style={{
+          maxWidth: "56rem",
+          margin: "0 auto",
+          padding: "2rem 1.5rem",
+        }}
+      >
         {/* Back Button */}
         <button
           onClick={handleBack}
-          className="
-            flex items-center gap-2 mb-6
-            text-gray-600 hover:text-gray-900
-            font-medium transition-colors
-          "
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "0.5rem",
+            marginBottom: "1.5rem",
+            padding: "0.625rem 1.25rem",
+            borderRadius: "9999px",
+            color: "#6b7280",
+            fontWeight: "500",
+            fontSize: "0.875rem",
+            background: "white",
+            border: "2px solid #e5e7eb",
+            cursor: "pointer",
+            transition: "all 0.3s ease",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.color = "#f59e0b";
+            e.currentTarget.style.borderColor = "#fbbf24";
+            e.currentTarget.style.transform = "translateX(-4px)";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.color = "#6b7280";
+            e.currentTarget.style.borderColor = "#e5e7eb";
+            e.currentTarget.style.transform = "translateX(0)";
+          }}
         >
-          <BiArrowBack className="w-5 h-5" />
-          Back to discussions
+          <BiArrowBack style={{ width: "18px", height: "18px" }} />
+          <span>Back to discussions</span>
         </button>
 
         {/* Loading State */}
@@ -38,14 +68,16 @@ const PostDetailPage = () => {
 
         {/* Error State */}
         {error && !loading && (
-          <div className="py-12">
+          <div style={{ padding: "3rem 0" }}>
             <ErrorMessage message={error} onRetry={refetch} fullWidth />
           </div>
         )}
 
         {/* Success State */}
         {!loading && !error && post && (
-          <div className="space-y-6">
+          <div
+            style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}
+          >
             <PostDetail post={post} />
             <CommentList postId={post._id} />
           </div>
@@ -53,20 +85,45 @@ const PostDetailPage = () => {
 
         {/* Post Not Found */}
         {!loading && !error && !post && (
-          <div className="text-center py-12">
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">
+          <div style={{ textAlign: "center", padding: "3rem 0" }}>
+            <h2
+              style={{
+                fontSize: "1.5rem",
+                fontWeight: "700",
+                color: "#1f2937",
+                marginBottom: "0.5rem",
+              }}
+            >
               Post Not Found
             </h2>
-            <p className="text-gray-600 mb-6">
+            <p
+              style={{
+                fontSize: "1rem",
+                color: "#6b7280",
+                marginBottom: "1.5rem",
+              }}
+            >
               The post you're looking for doesn't exist or has been removed.
             </p>
             <button
               onClick={handleBack}
-              className="
-                px-6 py-3 bg-blue-600 hover:bg-blue-700
-                text-white rounded-lg font-medium
-                transition-colors
-              "
+              style={{
+                padding: "0.75rem 1.5rem",
+                background: "linear-gradient(to right, #fbbf24, #fb923c)",
+                color: "white",
+                borderRadius: "9999px",
+                fontWeight: "600",
+                fontSize: "0.875rem",
+                border: "none",
+                cursor: "pointer",
+                transition: "all 0.3s ease",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "scale(1.05)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "scale(1)";
+              }}
             >
               Back to Home
             </button>

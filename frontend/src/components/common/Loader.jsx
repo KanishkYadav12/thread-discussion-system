@@ -5,52 +5,89 @@
 
 import React from "react";
 
-/**
- * @param {string} size - Size of loader: 'sm', 'md', 'lg' (default: 'md')
- * @param {string} text - Optional loading text to display
- * @param {boolean} fullScreen - Whether to show full screen overlay
- */
 const Loader = ({ size = "md", text = "", fullScreen = false }) => {
-  // Size configurations
-  const sizeClasses = {
-    sm: "w-6 h-6 border-2",
-    md: "w-12 h-12 border-3",
-    lg: "w-16 h-16 border-4",
+  const sizeConfig = {
+    sm: { width: "24px", height: "24px", borderWidth: "2px" },
+    md: { width: "48px", height: "48px", borderWidth: "3px" },
+    lg: { width: "64px", height: "64px", borderWidth: "4px" },
   };
 
-  const spinnerClass = `
-    inline-block
-    ${sizeClasses[size]}
-    border-blue-600
-    border-t-transparent
-    rounded-full
-    animate-spin
-  `;
+  const config = sizeConfig[size];
+
+  const spinnerStyle = {
+    width: config.width,
+    height: config.height,
+    border: `${config.borderWidth} solid #fef3c7`,
+    borderTop: `${config.borderWidth} solid #f59e0b`,
+    borderRadius: "50%",
+    animation: "spin 0.8s linear infinite",
+  };
 
   const content = (
-    <div className="flex flex-col items-center justify-center gap-3">
-      <div className={spinnerClass} role="status" aria-label="Loading">
-        <span className="sr-only">Loading...</span>
-      </div>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: "1rem",
+      }}
+    >
+      <div style={spinnerStyle} role="status" aria-label="Loading" />
       {text && (
-        <p className="text-gray-600 text-sm font-medium animate-pulse">
+        <p
+          style={{
+            fontSize: "0.875rem",
+            fontWeight: "600",
+            color: "#6b7280",
+            animation: "pulse 1.5s ease-in-out infinite",
+          }}
+        >
           {text}
         </p>
       )}
+      <style>{`
+        @keyframes spin {
+          to { transform: rotate(360deg); }
+        }
+        @keyframes pulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.5; }
+        }
+      `}</style>
     </div>
   );
 
-  // Full screen overlay version
   if (fullScreen) {
     return (
-      <div className="fixed inset-0 bg-white/80 backdrop-blur-sm flex items-center justify-center z-50">
+      <div
+        style={{
+          position: "fixed",
+          inset: 0,
+          background: "rgba(255, 255, 255, 0.9)",
+          backdropFilter: "blur(8px)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          zIndex: 9999,
+        }}
+      >
         {content}
       </div>
     );
   }
 
-  // Inline version
-  return <div className="flex items-center justify-center py-8">{content}</div>;
+  return (
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "2rem 0",
+      }}
+    >
+      {content}
+    </div>
+  );
 };
 
 export default Loader;

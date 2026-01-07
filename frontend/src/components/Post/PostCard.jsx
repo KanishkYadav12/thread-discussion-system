@@ -23,38 +23,144 @@ const PostCard = ({ post }) => {
   return (
     <article
       onClick={() => navigate(`/post/${post._id}`)}
-      className="bg-white rounded-2xl border border-amber-100 hover:border-amber-300 p-6 cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-amber-100/50 hover:-translate-y-1"
+      style={{
+        background: "white",
+        borderRadius: "16px",
+        border: "2px solid #fef3c7",
+        padding: "1.5rem",
+        cursor: "pointer",
+        transition: "all 0.3s ease",
+        position: "relative",
+        overflow: "hidden",
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.borderColor = "#fbbf24";
+        e.currentTarget.style.boxShadow =
+          "0 20px 25px -5px rgba(251, 191, 36, 0.15)";
+        e.currentTarget.style.transform = "translateY(-4px)";
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.borderColor = "#fef3c7";
+        e.currentTarget.style.boxShadow = "none";
+        e.currentTarget.style.transform = "translateY(0)";
+      }}
     >
-      <h3 className="text-lg font-bold text-gray-800 leading-snug line-clamp-2 hover:text-amber-600 transition-colors mb-3">
+      {/* Gradient accent */}
+      <div
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          height: "4px",
+          background: "linear-gradient(to right, #fbbf24, #fb923c, #fb7185)",
+        }}
+      />
+
+      {/* Title */}
+      <h3
+        style={{
+          fontSize: "1.125rem",
+          fontWeight: "700",
+          color: "#1f2937",
+          lineHeight: "1.5",
+          marginBottom: "0.75rem",
+          display: "-webkit-box",
+          WebkitLineClamp: "2",
+          WebkitBoxOrient: "vertical",
+          overflow: "hidden",
+        }}
+      >
         {post.title}
       </h3>
 
+      {/* Content */}
       {post.content && (
-        <p className="text-gray-500 text-sm leading-relaxed line-clamp-3 mb-4">
+        <p
+          style={{
+            fontSize: "0.875rem",
+            color: "#6b7280",
+            lineHeight: "1.6",
+            marginBottom: "1rem",
+            display: "-webkit-box",
+            WebkitLineClamp: "3",
+            WebkitBoxOrient: "vertical",
+            overflow: "hidden",
+          }}
+        >
           {post.content}
         </p>
       )}
 
-      <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-amber-100 to-orange-100 flex items-center justify-center">
-            <BiUser className="w-4 h-4 text-amber-600" />
+      {/* Footer */}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          paddingTop: "1rem",
+          borderTop: "1px solid #f3f4f6",
+        }}
+      >
+        {/* Author */}
+        <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+          <div
+            style={{
+              width: "32px",
+              height: "32px",
+              borderRadius: "50%",
+              background: "linear-gradient(135deg, #fef3c7, #fed7aa)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <BiUser
+              style={{ width: "16px", height: "16px", color: "#f59e0b" }}
+            />
           </div>
-          <span className="text-sm font-medium text-gray-600">
+          <span
+            style={{
+              fontSize: "0.875rem",
+              fontWeight: "600",
+              color: "#4b5563",
+            }}
+          >
             {post.author || "Anonymous"}
           </span>
         </div>
 
-        <div className="flex items-center gap-4 text-gray-400">
-          <div className="flex items-center gap-1.5">
-            <BiMessageSquareDetail className="w-4 h-4" />
-            <span className="text-xs font-medium">
+        {/* Stats */}
+        <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+          <div
+            style={{ display: "flex", alignItems: "center", gap: "0.375rem" }}
+          >
+            <BiMessageSquareDetail
+              style={{ width: "16px", height: "16px", color: "#9ca3af" }}
+            />
+            <span
+              style={{
+                fontSize: "0.75rem",
+                fontWeight: "600",
+                color: "#6b7280",
+              }}
+            >
               {post.commentCount || 0}
             </span>
           </div>
-          <div className="flex items-center gap-1.5">
-            <BiTime className="w-4 h-4" />
-            <span className="text-xs font-medium">
+          <div
+            style={{ display: "flex", alignItems: "center", gap: "0.375rem" }}
+          >
+            <BiTime
+              style={{ width: "16px", height: "16px", color: "#9ca3af" }}
+            />
+            <span
+              style={{
+                fontSize: "0.75rem",
+                fontWeight: "600",
+                color: "#6b7280",
+              }}
+            >
               {formatDate(post.createdAt)}
             </span>
           </div>

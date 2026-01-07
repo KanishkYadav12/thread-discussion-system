@@ -17,7 +17,7 @@ const CommentTree = ({ commentTree, postId }) => {
   }
 
   return (
-    <div className="space-y-4">
+    <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
       {commentTree.map((comment) => (
         <CommentItem
           key={comment._id}

@@ -11,14 +11,50 @@ const CreatePostPage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50 py-8">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div
+      style={{
+        minHeight: "100vh",
+        background: "linear-gradient(to bottom, #fffbf5, #fef3c7)",
+        padding: "2rem 0",
+      }}
+    >
+      <div
+        style={{
+          maxWidth: "56rem",
+          margin: "0 auto",
+          padding: "0 1.5rem",
+        }}
+      >
         {/* Back Button */}
         <button
           onClick={() => navigate("/")}
-          className="inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-lg text-slate-600 hover:text-indigo-600 hover:bg-white font-medium transition-all border-2 border-transparent hover:border-slate-200"
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "0.5rem",
+            marginBottom: "1.5rem",
+            padding: "0.625rem 1.25rem",
+            borderRadius: "9999px",
+            color: "#6b7280",
+            fontWeight: "500",
+            fontSize: "0.875rem",
+            background: "white",
+            border: "2px solid #e5e7eb",
+            cursor: "pointer",
+            transition: "all 0.3s ease",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.color = "#f59e0b";
+            e.currentTarget.style.borderColor = "#fbbf24";
+            e.currentTarget.style.transform = "translateX(-4px)";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.color = "#6b7280";
+            e.currentTarget.style.borderColor = "#e5e7eb";
+            e.currentTarget.style.transform = "translateX(0)";
+          }}
         >
-          <BiArrowBack className="w-5 h-5" />
+          <BiArrowBack style={{ width: "18px", height: "18px" }} />
           <span>Back to discussions</span>
         </button>
 

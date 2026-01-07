@@ -5,7 +5,7 @@
  */
 
 import React, { useState } from "react";
-import { BiReply, BiTime } from "react-icons/bi";
+import { BiReply, BiTime, BiChevronDown, BiChevronUp } from "react-icons/bi";
 import { formatRelativeTime } from "../../utils/formatDate";
 import CommentForm from "./CommentForm";
 import { UI_CONFIG } from "../../utils/constants";
@@ -22,16 +22,13 @@ const CommentItem = ({ comment, depth = 0, postId }) => {
   const hasChildren = comment.children && comment.children.length > 0;
   const canReply = depth < UI_CONFIG.MAX_COMMENT_DEPTH;
 
-  // Calculate indentation based on depth
-  const indentationClass = depth > 0 ? "ml-6 sm:ml-8 md:ml-12" : "";
-
   // Border color gets lighter as depth increases
   const borderColors = [
-    "border-blue-200",
-    "border-green-200",
-    "border-purple-200",
-    "border-orange-200",
-    "border-pink-200",
+    "#fbbf24", // amber
+    "#10b981", // green
+    "#8b5cf6", // purple
+    "#f97316", // orange
+    "#ec4899", // pink
   ];
   const borderColor = borderColors[depth % borderColors.length];
 
@@ -52,39 +49,106 @@ const CommentItem = ({ comment, depth = 0, postId }) => {
   };
 
   return (
-    <div className={`${indentationClass}`}>
-      {/* Comment Container */}
-      <div className={`border-l-2 ${borderColor} pl-4 py-2`}>
-        {/* Comment Content */}
-        <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-200">
+    <div style={{ marginLeft: depth > 0 ? "clamp(1.5rem, 4vw, 3rem)" : "0" }}>
+      <div
+        style={{
+          borderLeft: `3px solid ${borderColor}`,
+          paddingLeft: "1rem",
+          paddingTop: "0.5rem",
+          paddingBottom: "0.5rem",
+        }}
+      >
+        {/* Comment Card */}
+        <div
+          style={{
+            background: "white",
+            borderRadius: "12px",
+            padding: "1rem 1.25rem",
+            border: "1px solid #f3f4f6",
+            boxShadow: "0 1px 3px rgba(0, 0, 0, 0.05)",
+            transition: "all 0.3s ease",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.boxShadow = "0 4px 6px rgba(0, 0, 0, 0.07)";
+            e.currentTarget.style.borderColor = "#e5e7eb";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.boxShadow = "0 1px 3px rgba(0, 0, 0, 0.05)";
+            e.currentTarget.style.borderColor = "#f3f4f6";
+          }}
+        >
           {/* Comment Text */}
-          <p className="text-gray-800 mb-3 whitespace-pre-wrap break-words">
+          <p
+            style={{
+              color: "#374151",
+              marginBottom: "0.875rem",
+              whiteSpace: "pre-wrap",
+              wordBreak: "break-word",
+              fontSize: "0.9375rem",
+              lineHeight: "1.6",
+            }}
+          >
             {comment.text}
           </p>
 
           {/* Comment Meta & Actions */}
-          <div className="flex items-center justify-between flex-wrap gap-2">
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              flexWrap: "wrap",
+              gap: "0.75rem",
+            }}
+          >
             {/* Timestamp */}
-            <div className="flex items-center gap-1 text-xs text-gray-500">
-              <BiTime className="w-3.5 h-3.5" />
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "0.375rem",
+                fontSize: "0.75rem",
+                color: "#9ca3af",
+              }}
+            >
+              <BiTime style={{ width: "14px", height: "14px" }} />
               <time dateTime={comment.createdAt}>
                 {formatRelativeTime(comment.createdAt)}
               </time>
             </div>
 
             {/* Actions */}
-            <div className="flex items-center gap-3">
+            <div
+              style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}
+            >
               {/* Reply Button */}
               {canReply && (
                 <button
                   onClick={handleReplyClick}
-                  className="
-                    flex items-center gap-1 text-sm
-                    text-blue-600 hover:text-blue-700
-                    font-medium transition-colors
-                  "
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "0.375rem",
+                    fontSize: "0.8125rem",
+                    color: isReplying ? "#dc2626" : borderColor,
+                    fontWeight: "600",
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                    transition: "all 0.3s ease",
+                    padding: "0.25rem 0.5rem",
+                    borderRadius: "6px",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = isReplying
+                      ? "#fee2e2"
+                      : `${borderColor}15`;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = "none";
+                  }}
                 >
-                  <BiReply className="w-4 h-4" />
+                  <BiReply style={{ width: "16px", height: "16px" }} />
                   {isReplying ? "Cancel" : "Reply"}
                 </button>
               )}
@@ -93,12 +157,35 @@ const CommentItem = ({ comment, depth = 0, postId }) => {
               {hasChildren && (
                 <button
                   onClick={toggleReplies}
-                  className="
-                    text-sm text-gray-600 hover:text-gray-800
-                    font-medium transition-colors
-                  "
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "0.375rem",
+                    fontSize: "0.8125rem",
+                    color: "#6b7280",
+                    fontWeight: "600",
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                    transition: "all 0.3s ease",
+                    padding: "0.25rem 0.5rem",
+                    borderRadius: "6px",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = "#f3f4f6";
+                    e.currentTarget.style.color = "#374151";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = "none";
+                    e.currentTarget.style.color = "#6b7280";
+                  }}
                 >
-                  {showReplies ? "Hide" : "Show"} {comment.children.length}{" "}
+                  {showReplies ? (
+                    <BiChevronUp style={{ width: "16px", height: "16px" }} />
+                  ) : (
+                    <BiChevronDown style={{ width: "16px", height: "16px" }} />
+                  )}
+                  {comment.children.length}{" "}
                   {comment.children.length === 1 ? "reply" : "replies"}
                 </button>
               )}
@@ -108,20 +195,28 @@ const CommentItem = ({ comment, depth = 0, postId }) => {
 
         {/* Reply Form */}
         {isReplying && (
-          <div className="mt-3">
+          <div style={{ marginTop: "0.75rem" }}>
             <CommentForm
               postId={postId}
               parentId={comment._id}
               onSuccess={handleReplySuccess}
               onCancel={() => setIsReplying(false)}
               placeholder="Write your reply..."
+              borderColor={borderColor}
             />
           </div>
         )}
 
-        {/* Nested Replies - RECURSIVE RENDERING */}
+        {/* Nested Replies */}
         {hasChildren && showReplies && (
-          <div className="mt-3 space-y-3">
+          <div
+            style={{
+              marginTop: "0.75rem",
+              display: "flex",
+              flexDirection: "column",
+              gap: "0.75rem",
+            }}
+          >
             {comment.children.map((childComment) => (
               <CommentItem
                 key={childComment._id}
@@ -135,7 +230,17 @@ const CommentItem = ({ comment, depth = 0, postId }) => {
 
         {/* Max Depth Warning */}
         {!canReply && depth === UI_CONFIG.MAX_COMMENT_DEPTH && (
-          <div className="mt-3 text-xs text-gray-500 italic">
+          <div
+            style={{
+              marginTop: "0.75rem",
+              fontSize: "0.75rem",
+              color: "#9ca3af",
+              fontStyle: "italic",
+              padding: "0.5rem 0.75rem",
+              background: "#f9fafb",
+              borderRadius: "8px",
+            }}
+          >
             Maximum nesting level reached
           </div>
         )}

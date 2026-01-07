@@ -7,40 +7,33 @@ import React from "react";
 import { BiError } from "react-icons/bi";
 import { MdRefresh } from "react-icons/md";
 
-/**
- * @param {string} message - Error message to display
- * @param {Function} onRetry - Optional retry function
- * @param {string} type - Error type: 'error', 'warning', 'info' (default: 'error')
- * @param {boolean} fullWidth - Whether to take full width
- */
 const ErrorMessage = ({
   message,
   onRetry,
   type = "error",
   fullWidth = false,
 }) => {
-  // Color schemes for different types
   const typeStyles = {
     error: {
-      bg: "bg-red-50",
-      border: "border-red-200",
-      icon: "text-red-500",
-      text: "text-red-800",
-      button: "bg-red-600 hover:bg-red-700",
+      bg: "#fef2f2",
+      border: "#fecaca",
+      icon: "#ef4444",
+      text: "#991b1b",
+      button: "linear-gradient(to right, #ef4444, #dc2626)",
     },
     warning: {
-      bg: "bg-yellow-50",
-      border: "border-yellow-200",
-      icon: "text-yellow-500",
-      text: "text-yellow-800",
-      button: "bg-yellow-600 hover:bg-yellow-700",
+      bg: "#fffbeb",
+      border: "#fde68a",
+      icon: "#f59e0b",
+      text: "#92400e",
+      button: "linear-gradient(to right, #f59e0b, #d97706)",
     },
     info: {
-      bg: "bg-blue-50",
-      border: "border-blue-200",
-      icon: "text-blue-500",
-      text: "text-blue-800",
-      button: "bg-blue-600 hover:bg-blue-700",
+      bg: "#eff6ff",
+      border: "#bfdbfe",
+      icon: "#3b82f6",
+      text: "#1e40af",
+      button: "linear-gradient(to right, #3b82f6, #2563eb)",
     },
   };
 
@@ -48,53 +41,106 @@ const ErrorMessage = ({
 
   return (
     <div
-      className={`flex items-center justify-center py-8 ${
-        fullWidth ? "w-full" : ""
-      }`}
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "2rem 0",
+        width: fullWidth ? "100%" : "auto",
+      }}
     >
       <div
-        className={`
-          ${styles.bg}
-          ${styles.border}
-          border rounded-lg p-6
-          max-w-md w-full
-          shadow-sm
-        `}
+        style={{
+          background: styles.bg,
+          border: `2px solid ${styles.border}`,
+          borderRadius: "16px",
+          padding: "1.5rem",
+          maxWidth: "28rem",
+          width: "100%",
+          boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.05)",
+        }}
         role="alert"
       >
-        <div className="flex items-start gap-3">
+        <div style={{ display: "flex", gap: "1rem" }}>
           {/* Icon */}
-          <div className="flex-shrink-0">
-            <BiError className={`w-6 h-6 ${styles.icon}`} />
+          <div style={{ flexShrink: 0 }}>
+            <div
+              style={{
+                width: "40px",
+                height: "40px",
+                borderRadius: "50%",
+                background: "white",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <BiError
+                style={{
+                  width: "24px",
+                  height: "24px",
+                  color: styles.icon,
+                }}
+              />
+            </div>
           </div>
 
           {/* Content */}
-          <div className="flex-1">
-            <h3 className={`font-semibold ${styles.text} mb-1`}>
+          <div style={{ flex: 1 }}>
+            <h3
+              style={{
+                fontWeight: "700",
+                fontSize: "1rem",
+                color: styles.text,
+                marginBottom: "0.5rem",
+              }}
+            >
               {type === "error"
-                ? "Error"
+                ? "Error Occurred"
                 : type === "warning"
                 ? "Warning"
                 : "Information"}
             </h3>
-            <p className={`text-sm ${styles.text}`}>
-              {message || "An unexpected error occurred."}
+            <p
+              style={{
+                fontSize: "0.875rem",
+                color: styles.text,
+                lineHeight: "1.5",
+              }}
+            >
+              {message || "An unexpected error occurred. Please try again."}
             </p>
 
             {/* Retry button */}
             {onRetry && (
               <button
                 onClick={onRetry}
-                className={`
-                  mt-4 px-4 py-2 rounded-md
-                  ${styles.button}
-                  text-white text-sm font-medium
-                  flex items-center gap-2
-                  transition-colors duration-200
-                  focus:outline-none focus:ring-2 focus:ring-offset-2
-                `}
+                style={{
+                  marginTop: "1rem",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "0.5rem",
+                  padding: "0.625rem 1.25rem",
+                  background: styles.button,
+                  color: "white",
+                  fontSize: "0.875rem",
+                  fontWeight: "600",
+                  borderRadius: "9999px",
+                  border: "none",
+                  cursor: "pointer",
+                  transition: "all 0.3s ease",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = "scale(1.05)";
+                  e.currentTarget.style.boxShadow =
+                    "0 10px 15px -3px rgba(0, 0, 0, 0.2)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = "scale(1)";
+                  e.currentTarget.style.boxShadow = "none";
+                }}
               >
-                <MdRefresh className="w-4 h-4" />
+                <MdRefresh style={{ width: "16px", height: "16px" }} />
                 Try Again
               </button>
             )}

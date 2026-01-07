@@ -6,7 +6,7 @@
 import React, { useState, useEffect } from "react";
 import { useCreateComment } from "../../hooks/useComments";
 import { VALIDATION } from "../../utils/constants";
-import { BiError } from "react-icons/bi";
+import { BiError, BiSend } from "react-icons/bi";
 
 const CommentForm = ({
   postId,
@@ -14,6 +14,7 @@ const CommentForm = ({
   onSuccess,
   onCancel,
   placeholder = "Share your thoughts...",
+  borderColor = "#fbbf24",
 }) => {
   // Use custom hook
   const { loading, createComment, success, error, resetCreateComment } =
@@ -21,6 +22,7 @@ const CommentForm = ({
 
   const [text, setText] = useState("");
   const [validationError, setValidationError] = useState("");
+  const [isFocused, setIsFocused] = useState(false);
 
   const isReply = parentId !== null;
 
@@ -85,67 +87,165 @@ const CommentForm = ({
   };
 
   return (
-    <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+    <div
+      style={{
+        background: "#fafaf9",
+        borderRadius: "12px",
+        padding: "1rem",
+        border: `2px solid ${isFocused ? borderColor : "#f3f4f6"}`,
+        transition: "all 0.3s ease",
+      }}
+    >
       {isReply && (
-        <div className="mb-3">
-          <p className="text-sm text-gray-600 font-medium">
+        <div style={{ marginBottom: "0.75rem" }}>
+          <p
+            style={{
+              fontSize: "0.8125rem",
+              color: "#6b7280",
+              fontWeight: "600",
+              display: "flex",
+              alignItems: "center",
+              gap: "0.5rem",
+            }}
+          >
+            <span
+              style={{
+                width: "4px",
+                height: "4px",
+                borderRadius: "50%",
+                background: borderColor,
+              }}
+            />
             Replying to comment
           </p>
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-3">
+      <form
+        onSubmit={handleSubmit}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "0.75rem",
+        }}
+      >
         <textarea
           value={text}
           onChange={handleChange}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
           disabled={loading}
           rows={isReply ? 3 : 4}
-          className={`
-            w-full px-4 py-3 rounded-lg border
-            ${validationError || error ? "border-red-300" : "border-gray-300"}
-            focus:ring-2 focus:ring-blue-500 focus:border-transparent
-            disabled:bg-gray-100 disabled:text-gray-500
-            transition-colors resize-none
-          `}
+          style={{
+            width: "100%",
+            padding: "0.75rem 1rem",
+            borderRadius: "8px",
+            border:
+              validationError || error
+                ? "2px solid #fca5a5"
+                : "2px solid #e5e7eb",
+            fontSize: "0.9375rem",
+            color: "#374151",
+            background: loading ? "#f9fafb" : "white",
+            transition: "all 0.3s ease",
+            resize: "none",
+            outline: "none",
+            fontFamily: "inherit",
+            lineHeight: "1.6",
+          }}
           placeholder={placeholder}
           maxLength={VALIDATION.COMMENT_TEXT_MAX}
         />
 
-        <div className="flex justify-between items-start">
-          <div className="flex-1">
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "flex-start",
+            gap: "0.75rem",
+          }}
+        >
+          <div style={{ flex: 1 }}>
             {validationError && (
-              <div className="flex items-center gap-1 text-sm text-red-600">
-                <BiError className="w-4 h-4" />
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.375rem",
+                  fontSize: "0.8125rem",
+                  color: "#dc2626",
+                  fontWeight: "500",
+                }}
+              >
+                <BiError style={{ width: "14px", height: "14px" }} />
                 <span>{validationError}</span>
               </div>
             )}
             {error && !validationError && (
-              <div className="flex items-center gap-1 text-sm text-red-600">
-                <BiError className="w-4 h-4" />
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.375rem",
+                  fontSize: "0.8125rem",
+                  color: "#dc2626",
+                  fontWeight: "500",
+                }}
+              >
+                <BiError style={{ width: "14px", height: "14px" }} />
                 <span>{error}</span>
               </div>
             )}
           </div>
 
-          <span className="text-xs text-gray-500">
+          <span
+            style={{
+              fontSize: "0.6875rem",
+              color:
+                text.length > VALIDATION.COMMENT_TEXT_MAX * 0.9
+                  ? "#dc2626"
+                  : "#9ca3af",
+              fontWeight: "600",
+            }}
+          >
             {text.length}/{VALIDATION.COMMENT_TEXT_MAX}
           </span>
         </div>
 
-        <div className="flex gap-2 justify-end">
+        <div
+          style={{
+            display: "flex",
+            gap: "0.5rem",
+            justifyContent: "flex-end",
+          }}
+        >
           {onCancel && (
             <button
               type="button"
               onClick={onCancel}
               disabled={loading}
-              className="
-                px-4 py-2 rounded-lg
-                border border-gray-300
-                text-gray-700 font-medium text-sm
-                hover:bg-gray-100
-                disabled:opacity-50 disabled:cursor-not-allowed
-                transition-colors
-              "
+              style={{
+                padding: "0.625rem 1.25rem",
+                borderRadius: "8px",
+                border: "2px solid #e5e7eb",
+                color: "#6b7280",
+                fontWeight: "600",
+                fontSize: "0.8125rem",
+                background: "white",
+                cursor: loading ? "not-allowed" : "pointer",
+                opacity: loading ? 0.5 : 1,
+                transition: "all 0.3s ease",
+              }}
+              onMouseEnter={(e) => {
+                if (!loading) {
+                  e.currentTarget.style.background = "#f9fafb";
+                  e.currentTarget.style.borderColor = "#d1d5db";
+                }
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "white";
+                e.currentTarget.style.borderColor = "#e5e7eb";
+              }}
             >
               Cancel
             </button>
@@ -153,15 +253,34 @@ const CommentForm = ({
           <button
             type="submit"
             disabled={loading || !text.trim()}
-            className="
-              px-4 py-2 rounded-lg
-              bg-blue-600 hover:bg-blue-700
-              text-white font-medium text-sm
-              disabled:opacity-50 disabled:cursor-not-allowed
-              transition-colors
-              focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
-            "
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "0.5rem",
+              padding: "0.625rem 1.5rem",
+              borderRadius: "8px",
+              background: `linear-gradient(to right, ${borderColor}, ${borderColor}dd)`,
+              color: "white",
+              fontWeight: "700",
+              fontSize: "0.8125rem",
+              border: "none",
+              cursor: loading || !text.trim() ? "not-allowed" : "pointer",
+              opacity: loading || !text.trim() ? 0.5 : 1,
+              transition: "all 0.3s ease",
+              boxShadow: `0 4px 6px -1px ${borderColor}40`,
+            }}
+            onMouseEnter={(e) => {
+              if (!loading && text.trim()) {
+                e.currentTarget.style.transform = "translateY(-1px)";
+                e.currentTarget.style.boxShadow = `0 10px 15px -3px ${borderColor}40`;
+              }
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = "translateY(0)";
+              e.currentTarget.style.boxShadow = `0 4px 6px -1px ${borderColor}40`;
+            }}
           >
+            <BiSend style={{ width: "16px", height: "16px" }} />
             {loading ? "Posting..." : isReply ? "Reply" : "Comment"}
           </button>
         </div>

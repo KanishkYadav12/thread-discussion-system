@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { BiMessageSquareDetail, BiPlus, BiMenu, BiX } from "react-icons/bi";
+import {
+  BiMessageSquareDetail,
+  BiPlus,
+  BiMenu,
+  BiX,
+  BiHome,
+} from "react-icons/bi";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -22,59 +28,160 @@ const Header = () => {
 
   return (
     <header
-      className={`sticky top-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-white/80 backdrop-blur-xl shadow-lg shadow-amber-100/50"
-          : "bg-white"
-      }`}
+      style={{
+        position: "sticky",
+        top: 0,
+        zIndex: 50,
+        background: scrolled ? "rgba(255, 255, 255, 0.8)" : "white",
+        backdropFilter: scrolled ? "blur(12px)" : "none",
+        boxShadow: scrolled
+          ? "0 10px 15px -3px rgba(251, 191, 36, 0.1)"
+          : "none",
+        transition: "all 0.3s ease",
+      }}
     >
-      {/* Decorative top accent line */}
-      <div className="h-1 bg-gradient-to-r from-amber-400 via-orange-400 to-rose-400" />
+      {/* Top gradient line */}
+      <div
+        style={{
+          height: "3px",
+          background: "linear-gradient(to right, #fbbf24, #fb923c, #fb7185)",
+        }}
+      />
 
-      <div className="max-w-7xl mx-auto px-8">
-        <div className="flex items-center justify-between h-16">
+      <div style={{ maxWidth: "80rem", margin: "0 auto", padding: "0 2rem" }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            height: "4rem",
+          }}
+        >
           {/* Logo */}
           <Link
             to="/"
-            className="group flex items-center gap-3 transition-transform duration-300 hover:scale-[1.02]"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "0.75rem",
+              textDecoration: "none",
+              transition: "transform 0.3s ease",
+            }}
+            onMouseEnter={(e) =>
+              (e.currentTarget.style.transform = "scale(1.02)")
+            }
+            onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
           >
-            <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-amber-400 to-orange-500 rounded-xl blur-md opacity-40 group-hover:opacity-60 transition-opacity duration-300" />
-              <div className="relative w-10 h-10 bg-gradient-to-br from-amber-400 via-orange-400 to-rose-400 rounded-xl flex items-center justify-center shadow-lg shadow-amber-200/50">
-                <BiMessageSquareDetail className="w-5 h-5 text-white" />
-              </div>
+            <div
+              style={{
+                width: "40px",
+                height: "40px",
+                background:
+                  "linear-gradient(to bottom right, #fbbf24, #fb923c, #fb7185)",
+                borderRadius: "12px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                boxShadow: "0 4px 6px -1px rgba(251, 191, 36, 0.3)",
+              }}
+            >
+              <BiMessageSquareDetail
+                style={{ width: "20px", height: "20px", color: "white" }}
+              />
             </div>
 
             <div>
-              <h1 className="text-xl font-bold text-gray-800">
-                Thread<span className="text-amber-500">Talk</span>
+              <h1
+                style={{
+                  fontSize: "1.25rem",
+                  fontWeight: "700",
+                  color: "#1f2937",
+                }}
+              >
+                Thread<span style={{ color: "#f59e0b" }}>Talk</span>
               </h1>
-              <p className="text-[10px] text-gray-400 tracking-widest uppercase">
+              <p
+                style={{
+                  fontSize: "10px",
+                  color: "#9ca3af",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.1em",
+                }}
+              >
                 Community Discussions
               </p>
             </div>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-2">
-            <nav className="flex items-center gap-1 mr-3">
+          <div
+            style={{
+              display: "none",
+              alignItems: "center",
+              gap: "0.5rem",
+            }}
+            className="desktop-nav"
+          >
+            <nav
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "0.25rem",
+                marginRight: "0.75rem",
+              }}
+            >
               <Link
                 to="/"
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
-                  location.pathname === "/"
-                    ? "text-amber-600 bg-amber-50"
-                    : "text-gray-500 hover:text-gray-800 hover:bg-gray-50"
-                }`}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.5rem",
+                  padding: "0.5rem 1rem",
+                  borderRadius: "9999px",
+                  fontSize: "0.875rem",
+                  fontWeight: "500",
+                  textDecoration: "none",
+                  transition: "all 0.3s ease",
+                  color: location.pathname === "/" ? "#f59e0b" : "#6b7280",
+                  background:
+                    location.pathname === "/" ? "#fef3c7" : "transparent",
+                }}
               >
+                <BiHome style={{ width: "16px", height: "16px" }} />
                 Home
               </Link>
             </nav>
 
             <button
               onClick={() => navigate("/create")}
-              className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-amber-400 via-orange-400 to-rose-400 text-white rounded-full font-semibold text-sm shadow-lg shadow-amber-200/50 hover:shadow-xl hover:scale-105 transition-all duration-300"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "0.5rem",
+                padding: "0.625rem 1.25rem",
+                background:
+                  "linear-gradient(to right, #fbbf24, #fb923c, #fb7185)",
+                color: "white",
+                borderRadius: "9999px",
+                fontWeight: "600",
+                fontSize: "0.875rem",
+                border: "none",
+                cursor: "pointer",
+                boxShadow: "0 4px 6px -1px rgba(251, 191, 36, 0.3)",
+                transition: "all 0.3s ease",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "scale(1.05)";
+                e.currentTarget.style.boxShadow =
+                  "0 10px 15px -3px rgba(251, 191, 36, 0.4)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "scale(1)";
+                e.currentTarget.style.boxShadow =
+                  "0 4px 6px -1px rgba(251, 191, 36, 0.3)";
+              }}
             >
-              <BiPlus className="w-5 h-5" />
+              <BiPlus style={{ width: "20px", height: "20px" }} />
               <span>Create Post</span>
             </button>
           </div>
@@ -82,43 +189,107 @@ const Header = () => {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center text-gray-500 hover:text-gray-800 hover:bg-gray-100 transition-all duration-300"
+            style={{
+              display: "flex",
+              width: "40px",
+              height: "40px",
+              borderRadius: "9999px",
+              background: "#f9fafb",
+              alignItems: "center",
+              justifyContent: "center",
+              color: "#6b7280",
+              border: "none",
+              cursor: "pointer",
+              transition: "all 0.3s ease",
+            }}
+            className="mobile-menu-btn"
           >
             {mobileMenuOpen ? (
-              <BiX className="w-6 h-6" />
+              <BiX style={{ width: "24px", height: "24px" }} />
             ) : (
-              <BiMenu className="w-6 h-6" />
+              <BiMenu style={{ width: "24px", height: "24px" }} />
             )}
           </button>
         </div>
 
         {/* Mobile Menu */}
         <div
-          className={`md:hidden overflow-hidden transition-all duration-300 ease-out ${
-            mobileMenuOpen ? "max-h-64 pb-6" : "max-h-0"
-          }`}
+          style={{
+            overflow: "hidden",
+            maxHeight: mobileMenuOpen ? "256px" : "0",
+            paddingBottom: mobileMenuOpen ? "1.5rem" : "0",
+            transition: "all 0.3s ease",
+          }}
+          className="mobile-menu"
         >
-          <nav className="flex flex-col gap-2 pt-2 border-t border-gray-100">
+          <nav
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "0.5rem",
+              paddingTop: "0.5rem",
+              borderTop: "1px solid #f3f4f6",
+            }}
+          >
             <Link
               to="/"
-              className={`px-4 py-3 rounded-xl text-sm font-medium transition-all ${
-                location.pathname === "/"
-                  ? "text-amber-600 bg-amber-50"
-                  : "text-gray-500"
-              }`}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "0.5rem",
+                padding: "0.75rem 1rem",
+                borderRadius: "12px",
+                fontSize: "0.875rem",
+                fontWeight: "500",
+                textDecoration: "none",
+                transition: "all 0.3s ease",
+                color: location.pathname === "/" ? "#f59e0b" : "#6b7280",
+                background:
+                  location.pathname === "/" ? "#fef3c7" : "transparent",
+              }}
             >
+              <BiHome style={{ width: "16px", height: "16px" }} />
               Home
             </Link>
             <button
               onClick={() => navigate("/create")}
-              className="mt-2 flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-amber-400 via-orange-400 to-rose-400 rounded-xl font-semibold text-sm text-white"
+              style={{
+                marginTop: "0.5rem",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "0.5rem",
+                padding: "0.75rem 1.5rem",
+                background:
+                  "linear-gradient(to right, #fbbf24, #fb923c, #fb7185)",
+                borderRadius: "12px",
+                fontWeight: "600",
+                fontSize: "0.875rem",
+                color: "white",
+                border: "none",
+                cursor: "pointer",
+              }}
             >
-              <BiPlus className="w-5 h-5" />
+              <BiPlus style={{ width: "20px", height: "20px" }} />
               Create Post
             </button>
           </nav>
         </div>
       </div>
+
+      <style>{`
+        @media (min-width: 768px) {
+          .desktop-nav {
+            display: flex !important;
+          }
+          .mobile-menu-btn {
+            display: none !important;
+          }
+          .mobile-menu {
+            display: none !important;
+          }
+        }
+      `}</style>
     </header>
   );
 };

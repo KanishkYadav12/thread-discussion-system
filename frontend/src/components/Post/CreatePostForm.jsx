@@ -2,7 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCreatePost } from "../../hooks/usePosts";
 import { VALIDATION, SUCCESS_MESSAGES } from "../../utils/constants";
-import { BiError, BiCheck } from "react-icons/bi";
+import {
+  BiError,
+  BiCheck,
+  BiEditAlt,
+  BiMessageSquareDetail,
+} from "react-icons/bi";
 
 const CreatePostForm = () => {
   const navigate = useNavigate();
@@ -76,142 +81,441 @@ const CreatePostForm = () => {
   };
 
   return (
-    <div className="bg-white rounded-xl border-2 border-slate-200 shadow-lg p-8">
-      {/* Header */}
-      <div className="mb-8 pb-6 border-b-2 border-slate-100">
-        <h1 className="text-3xl font-bold text-slate-900 mb-2">
-          Create New Discussion
-        </h1>
-        <p className="text-slate-600">
-          Share your thoughts and start a conversation
-        </p>
+    <div
+      style={{
+        background: "white",
+        borderRadius: "20px",
+        border: "2px solid #fde68a",
+        boxShadow: "0 20px 25px -5px rgba(251, 191, 36, 0.1)",
+        overflow: "hidden",
+      }}
+    >
+      {/* Header with gradient */}
+      <div
+        style={{
+          background: "linear-gradient(135deg, #fef3c7, #fed7aa)",
+          padding: "2rem",
+          borderBottom: "2px solid #fde68a",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "1rem",
+            marginBottom: "0.75rem",
+          }}
+        >
+          <div
+            style={{
+              width: "48px",
+              height: "48px",
+              borderRadius: "12px",
+              background: "linear-gradient(to bottom right, #fbbf24, #fb923c)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              boxShadow: "0 4px 6px -1px rgba(251, 146, 60, 0.3)",
+            }}
+          >
+            <BiEditAlt
+              style={{ width: "24px", height: "24px", color: "white" }}
+            />
+          </div>
+          <div>
+            <h1
+              style={{
+                fontSize: "1.875rem",
+                fontWeight: "800",
+                color: "#1f2937",
+                lineHeight: "1.2",
+              }}
+            >
+              Create New Discussion
+            </h1>
+            <p
+              style={{
+                fontSize: "0.875rem",
+                color: "#6b7280",
+                marginTop: "0.25rem",
+              }}
+            >
+              Share your thoughts and start a conversation with the community
+            </p>
+          </div>
+        </div>
       </div>
 
-      {/* Success Message */}
-      {success && (
-        <div className="mb-6 p-4 rounded-lg bg-green-50 border-2 border-green-200 flex items-center gap-3">
-          <BiCheck className="w-6 h-6 text-green-600 flex-shrink-0" />
-          <span className="text-green-800 font-semibold">
-            {SUCCESS_MESSAGES.POST_CREATED}
-          </span>
-        </div>
-      )}
-
-      {/* Error Message */}
-      {error && (
-        <div className="mb-6 p-4 rounded-lg bg-red-50 border-2 border-red-200 flex items-start gap-3">
-          <BiError className="w-6 h-6 text-red-600 flex-shrink-0" />
-          <span className="text-red-800">{error}</span>
-        </div>
-      )}
-
-      {/* Form */}
-      <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Title Field */}
-        <div>
-          <label
-            htmlFor="title"
-            className="block text-sm font-bold text-slate-700 mb-2"
+      {/* Form Container */}
+      <div style={{ padding: "2rem" }}>
+        {/* Success Message */}
+        {success && (
+          <div
+            style={{
+              marginBottom: "1.5rem",
+              padding: "1rem 1.25rem",
+              borderRadius: "12px",
+              background: "linear-gradient(135deg, #d1fae5, #a7f3d0)",
+              border: "2px solid #6ee7b7",
+              display: "flex",
+              alignItems: "center",
+              gap: "0.75rem",
+              animation: "slideIn 0.3s ease-out",
+            }}
           >
-            Title *
-          </label>
-          <input
-            type="text"
-            id="title"
-            name="title"
-            value={formData.title}
-            onChange={handleChange}
-            disabled={loading || success}
-            className={`w-full px-4 py-3 rounded-lg bg-white border-2 ${
-              errors.title
-                ? "border-red-300 focus:border-red-500"
-                : "border-slate-200 focus:border-indigo-500"
-            } focus:ring-2 focus:ring-indigo-100 disabled:bg-slate-50 disabled:text-slate-400 transition-all text-base placeholder:text-slate-400`}
-            placeholder="Enter a descriptive title..."
-            maxLength={VALIDATION.POST_TITLE_MAX}
-          />
-          <div className="flex justify-between items-center mt-2">
-            {errors.title ? (
-              <span className="text-sm text-red-600 font-medium">
-                {errors.title}
-              </span>
-            ) : (
-              <span></span>
-            )}
-            <span
-              className={`text-sm font-medium ${
-                formData.title.length > VALIDATION.POST_TITLE_MAX * 0.9
-                  ? "text-red-600"
-                  : "text-slate-500"
-              }`}
+            <div
+              style={{
+                width: "32px",
+                height: "32px",
+                borderRadius: "50%",
+                background: "#10b981",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
             >
-              {formData.title.length}/{VALIDATION.POST_TITLE_MAX}
+              <BiCheck
+                style={{ width: "20px", height: "20px", color: "white" }}
+              />
+            </div>
+            <span
+              style={{
+                color: "#065f46",
+                fontWeight: "600",
+                fontSize: "0.875rem",
+              }}
+            >
+              {SUCCESS_MESSAGES.POST_CREATED}
             </span>
           </div>
-        </div>
+        )}
 
-        {/* Content Field */}
-        <div>
-          <label
-            htmlFor="content"
-            className="block text-sm font-bold text-slate-700 mb-2"
+        {/* Error Message */}
+        {error && (
+          <div
+            style={{
+              marginBottom: "1.5rem",
+              padding: "1rem 1.25rem",
+              borderRadius: "12px",
+              background: "linear-gradient(135deg, #fee2e2, #fecaca)",
+              border: "2px solid #fca5a5",
+              display: "flex",
+              alignItems: "flex-start",
+              gap: "0.75rem",
+            }}
           >
-            Content *
-          </label>
-          <textarea
-            id="content"
-            name="content"
-            value={formData.content}
-            onChange={handleChange}
-            disabled={loading || success}
-            rows={12}
-            className={`w-full px-4 py-3 rounded-lg bg-white border-2 ${
-              errors.content
-                ? "border-red-300 focus:border-red-500"
-                : "border-slate-200 focus:border-indigo-500"
-            } focus:ring-2 focus:ring-indigo-100 disabled:bg-slate-50 disabled:text-slate-400 transition-all text-base leading-relaxed resize-none placeholder:text-slate-400`}
-            placeholder="Share your thoughts in detail..."
-            maxLength={VALIDATION.POST_CONTENT_MAX}
-          />
-          <div className="flex justify-between items-center mt-2">
-            {errors.content ? (
-              <span className="text-sm text-red-600 font-medium">
-                {errors.content}
-              </span>
-            ) : (
-              <span></span>
-            )}
-            <span
-              className={`text-sm font-medium ${
-                formData.content.length > VALIDATION.POST_CONTENT_MAX * 0.9
-                  ? "text-red-600"
-                  : "text-slate-500"
-              }`}
+            <div
+              style={{
+                width: "32px",
+                height: "32px",
+                borderRadius: "50%",
+                background: "#ef4444",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexShrink: 0,
+              }}
             >
-              {formData.content.length}/{VALIDATION.POST_CONTENT_MAX}
+              <BiError
+                style={{ width: "20px", height: "20px", color: "white" }}
+              />
+            </div>
+            <span
+              style={{
+                color: "#991b1b",
+                fontSize: "0.875rem",
+                lineHeight: "1.5",
+              }}
+            >
+              {error}
             </span>
           </div>
-        </div>
+        )}
 
-        {/* Actions */}
-        <div className="flex gap-4 justify-end pt-6 border-t-2 border-slate-100">
-          <button
-            type="button"
-            onClick={() => navigate("/")}
-            disabled={loading || success}
-            className="px-6 py-3 rounded-lg bg-white border-2 border-slate-200 text-slate-700 font-semibold hover:bg-slate-50 hover:border-slate-300 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+        {/* Form */}
+        <form
+          onSubmit={handleSubmit}
+          style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}
+        >
+          {/* Title Field */}
+          <div>
+            <label
+              htmlFor="title"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "0.5rem",
+                fontSize: "0.875rem",
+                fontWeight: "700",
+                color: "#374151",
+                marginBottom: "0.625rem",
+              }}
+            >
+              <BiMessageSquareDetail
+                style={{ width: "16px", height: "16px", color: "#f59e0b" }}
+              />
+              Discussion Title *
+            </label>
+            <input
+              type="text"
+              id="title"
+              name="title"
+              value={formData.title}
+              onChange={handleChange}
+              disabled={loading || success}
+              style={{
+                width: "100%",
+                padding: "0.875rem 1.125rem",
+                borderRadius: "12px",
+                background: errors.title ? "#fef2f2" : "#f9fafb",
+                border: errors.title
+                  ? "2px solid #fca5a5"
+                  : "2px solid #e5e7eb",
+                fontSize: "1rem",
+                color: "#1f2937",
+                transition: "all 0.3s ease",
+                outline: "none",
+              }}
+              placeholder="e.g., How to improve React performance?"
+              maxLength={VALIDATION.POST_TITLE_MAX}
+              onFocus={(e) => {
+                if (!errors.title) {
+                  e.currentTarget.style.borderColor = "#fbbf24";
+                  e.currentTarget.style.background = "white";
+                  e.currentTarget.style.boxShadow =
+                    "0 0 0 3px rgba(251, 191, 36, 0.1)";
+                }
+              }}
+              onBlur={(e) => {
+                if (!errors.title) {
+                  e.currentTarget.style.borderColor = "#e5e7eb";
+                  e.currentTarget.style.background = "#f9fafb";
+                  e.currentTarget.style.boxShadow = "none";
+                }
+              }}
+            />
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginTop: "0.5rem",
+              }}
+            >
+              {errors.title ? (
+                <span
+                  style={{
+                    fontSize: "0.75rem",
+                    color: "#dc2626",
+                    fontWeight: "600",
+                  }}
+                >
+                  {errors.title}
+                </span>
+              ) : (
+                <span style={{ fontSize: "0.75rem", color: "#9ca3af" }}>
+                  Make it clear and descriptive
+                </span>
+              )}
+              <span
+                style={{
+                  fontSize: "0.75rem",
+                  fontWeight: "600",
+                  color:
+                    formData.title.length > VALIDATION.POST_TITLE_MAX * 0.9
+                      ? "#dc2626"
+                      : "#9ca3af",
+                }}
+              >
+                {formData.title.length}/{VALIDATION.POST_TITLE_MAX}
+              </span>
+            </div>
+          </div>
+
+          {/* Content Field */}
+          <div>
+            <label
+              htmlFor="content"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "0.5rem",
+                fontSize: "0.875rem",
+                fontWeight: "700",
+                color: "#374151",
+                marginBottom: "0.625rem",
+              }}
+            >
+              <BiEditAlt
+                style={{ width: "16px", height: "16px", color: "#f59e0b" }}
+              />
+              Content *
+            </label>
+            <textarea
+              id="content"
+              name="content"
+              value={formData.content}
+              onChange={handleChange}
+              disabled={loading || success}
+              rows={14}
+              style={{
+                width: "100%",
+                padding: "0.875rem 1.125rem",
+                borderRadius: "12px",
+                background: errors.content ? "#fef2f2" : "#f9fafb",
+                border: errors.content
+                  ? "2px solid #fca5a5"
+                  : "2px solid #e5e7eb",
+                fontSize: "0.9375rem",
+                lineHeight: "1.7",
+                color: "#1f2937",
+                resize: "vertical",
+                transition: "all 0.3s ease",
+                outline: "none",
+                fontFamily: "inherit",
+              }}
+              placeholder="Share your thoughts, ask questions, or start a discussion..."
+              maxLength={VALIDATION.POST_CONTENT_MAX}
+              onFocus={(e) => {
+                if (!errors.content) {
+                  e.currentTarget.style.borderColor = "#fbbf24";
+                  e.currentTarget.style.background = "white";
+                  e.currentTarget.style.boxShadow =
+                    "0 0 0 3px rgba(251, 191, 36, 0.1)";
+                }
+              }}
+              onBlur={(e) => {
+                if (!errors.content) {
+                  e.currentTarget.style.borderColor = "#e5e7eb";
+                  e.currentTarget.style.background = "#f9fafb";
+                  e.currentTarget.style.boxShadow = "none";
+                }
+              }}
+            />
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginTop: "0.5rem",
+              }}
+            >
+              {errors.content ? (
+                <span
+                  style={{
+                    fontSize: "0.75rem",
+                    color: "#dc2626",
+                    fontWeight: "600",
+                  }}
+                >
+                  {errors.content}
+                </span>
+              ) : (
+                <span style={{ fontSize: "0.75rem", color: "#9ca3af" }}>
+                  Be detailed and specific
+                </span>
+              )}
+              <span
+                style={{
+                  fontSize: "0.75rem",
+                  fontWeight: "600",
+                  color:
+                    formData.content.length > VALIDATION.POST_CONTENT_MAX * 0.9
+                      ? "#dc2626"
+                      : "#9ca3af",
+                }}
+              >
+                {formData.content.length}/{VALIDATION.POST_CONTENT_MAX}
+              </span>
+            </div>
+          </div>
+
+          {/* Actions */}
+          <div
+            style={{
+              display: "flex",
+              gap: "0.75rem",
+              justifyContent: "flex-end",
+              paddingTop: "1.5rem",
+              borderTop: "2px solid #f3f4f6",
+            }}
           >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            disabled={loading || success}
-            className="px-6 py-3 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-indigo-300 transition-all"
-          >
-            {loading ? "Creating..." : success ? "Created ✓" : "Create Post"}
-          </button>
-        </div>
-      </form>
+            <button
+              type="button"
+              onClick={() => navigate("/")}
+              disabled={loading || success}
+              style={{
+                padding: "0.75rem 1.5rem",
+                borderRadius: "12px",
+                background: "white",
+                border: "2px solid #e5e7eb",
+                color: "#6b7280",
+                fontWeight: "600",
+                fontSize: "0.875rem",
+                cursor: "pointer",
+                transition: "all 0.3s ease",
+              }}
+              onMouseEnter={(e) => {
+                if (!loading && !success) {
+                  e.currentTarget.style.background = "#f9fafb";
+                  e.currentTarget.style.borderColor = "#d1d5db";
+                }
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "white";
+                e.currentTarget.style.borderColor = "#e5e7eb";
+              }}
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              disabled={loading || success}
+              style={{
+                padding: "0.75rem 2rem",
+                borderRadius: "12px",
+                background:
+                  "linear-gradient(to right, #fbbf24, #fb923c, #fb7185)",
+                color: "white",
+                fontWeight: "700",
+                fontSize: "0.875rem",
+                border: "none",
+                cursor: loading || success ? "not-allowed" : "pointer",
+                opacity: loading || success ? 0.6 : 1,
+                boxShadow: "0 10px 15px -3px rgba(251, 191, 36, 0.4)",
+                transition: "all 0.3s ease",
+              }}
+              onMouseEnter={(e) => {
+                if (!loading && !success) {
+                  e.currentTarget.style.transform = "translateY(-2px)";
+                  e.currentTarget.style.boxShadow =
+                    "0 20px 25px -5px rgba(251, 191, 36, 0.4)";
+                }
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow =
+                  "0 10px 15px -3px rgba(251, 191, 36, 0.4)";
+              }}
+            >
+              {loading ? "Creating..." : success ? "Created ✓" : "Create Post"}
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <style>{`
+        @keyframes slideIn {
+          from {
+            opacity: 0;
+            transform: translateY(-10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `}</style>
     </div>
   );
 };
