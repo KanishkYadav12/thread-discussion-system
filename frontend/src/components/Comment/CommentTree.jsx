@@ -1,17 +1,8 @@
-/**
- * CommentTree Component
- * Renders the nested comment tree structure
- * Acts as a wrapper between CommentList and CommentItem
- */
-
-import React from "react";
 import CommentItem from "./CommentItem";
 
-/**
- * @param {Array} commentTree - Nested array of comments with children
- * @param {string} postId - Post ID for creating replies
- */
-const CommentTree = ({ commentTree, postId }) => {
+const CommentTree = ({ commentTree, postId, depth = 0, onCommentSuccess }) => {
+  const MAX_DEPTH = 5;
+
   if (!commentTree || commentTree.length === 0) {
     return null;
   }
@@ -19,12 +10,32 @@ const CommentTree = ({ commentTree, postId }) => {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
       {commentTree.map((comment) => (
-        <CommentItem
-          key={comment._id}
-          comment={comment}
-          depth={0}
-          postId={postId}
-        />
+        <div key={comment._id}>
+          <CommentItem
+            comment={comment}
+            postId={postId}
+            depth={depth}
+            onCommentSuccess={onCommentSuccess}
+          />
+
+          {comment.children &&
+            comment.children.length > 0 &&
+            depth < MAX_DEPTH && (
+              <div
+                style={{
+                  marginLeft: depth < 3 ? "1.5rem" : "1rem",
+                  marginTop: "1rem",
+                }}
+              >
+                <CommentTree
+                  commentTree={comment.children}
+                  postId={postId}
+                  depth={depth + 1}
+                  onCommentSuccess={onCommentSuccess}
+                />
+              </div>
+            )}
+        </div>
       ))}
     </div>
   );

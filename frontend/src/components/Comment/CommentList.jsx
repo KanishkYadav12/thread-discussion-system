@@ -20,6 +20,11 @@ const CommentList = ({ postId }) => {
     setRefresh(true);
   };
 
+  // ✅ THIS IS THE FIX - Trigger refetch after comment is created
+  const handleCommentSuccess = () => {
+    setRefresh(true); // This will refetch all comments
+  };
+
   return (
     <section
       style={{
@@ -68,9 +73,13 @@ const CommentList = ({ postId }) => {
       </div>
 
       <div style={{ padding: "2rem" }}>
-        {/* Add Comment Form */}
+        {/* Add Comment Form - ✅ NOW WITH onSuccess CALLBACK */}
         <div style={{ marginBottom: "2rem" }}>
-          <CommentForm postId={postId} placeholder="Share your thoughts..." />
+          <CommentForm
+            postId={postId}
+            placeholder="Share your thoughts..."
+            onSuccess={handleCommentSuccess}
+          />
         </div>
 
         {/* Comments Section */}
@@ -101,7 +110,11 @@ const CommentList = ({ postId }) => {
                 gap: "1rem",
               }}
             >
-              <CommentTree commentTree={commentTree} postId={postId} />
+              <CommentTree
+                commentTree={commentTree}
+                postId={postId}
+                onCommentSuccess={handleCommentSuccess}
+              />
             </div>
           )}
         </div>

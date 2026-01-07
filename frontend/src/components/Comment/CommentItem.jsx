@@ -1,250 +1,271 @@
 /**
- * CommentItem Component
- * Renders a single comment with recursive nested replies
- * This is the CORE component for nested comment threading
+ * CommentItem Component - Beautiful Nested Comments
+ * Displays individual comment with reply functionality
  */
 
 import React, { useState } from "react";
-import { BiReply, BiTime, BiChevronDown, BiChevronUp } from "react-icons/bi";
-import { formatRelativeTime } from "../../utils/formatDate";
 import CommentForm from "./CommentForm";
-import { UI_CONFIG } from "../../utils/constants";
+import { formatRelativeTime } from "../../utils/formatDate";
+import { BiReply, BiUser, BiTime } from "react-icons/bi";
 
-/**
- * @param {Object} comment - Comment object with _id, text, createdAt, children
- * @param {number} depth - Current nesting depth (0 for top-level)
- * @param {string} postId - Post ID for creating replies
- */
-const CommentItem = ({ comment, depth = 0, postId }) => {
-  const [isReplying, setIsReplying] = useState(false);
-  const [showReplies, setShowReplies] = useState(true);
+const CommentItem = ({ comment, postId, depth = 0, onCommentSuccess }) => {
+  const [showReplyForm, setShowReplyForm] = useState(false);
 
-  const hasChildren = comment.children && comment.children.length > 0;
-  const canReply = depth < UI_CONFIG.MAX_COMMENT_DEPTH;
-
-  // Border color gets lighter as depth increases
+  // Border colors based on depth
   const borderColors = [
-    "#fbbf24", // amber
-    "#10b981", // green
-    "#8b5cf6", // purple
-    "#f97316", // orange
-    "#ec4899", // pink
+    "#8b5cf6", // Purple - depth 0
+    "#3b82f6", // Blue - depth 1
+    "#10b981", // Green - depth 2
+    "#f59e0b", // Orange - depth 3
+    "#ec4899", // Pink - depth 4
   ];
-  const borderColor = borderColors[depth % borderColors.length];
 
-  // Handle reply button click
+  // Background colors (lighter versions)
+  const bgColors = [
+    "#f5f3ff", // Purple bg
+    "#eff6ff", // Blue bg
+    "#ecfdf5", // Green bg
+    "#fffbeb", // Orange bg
+    "#fdf2f8", // Pink bg
+  ];
+
+  const currentBorderColor = borderColors[depth % 5];
+  const currentBgColor = bgColors[depth % 5];
+
+  // Get user initials (placeholder since we don't have user data)
+  const getUserInitials = () => {
+    return "U"; // Default to 'U' for User
+  };
+
   const handleReplyClick = () => {
-    setIsReplying(!isReplying);
+    setShowReplyForm(!showReplyForm);
   };
 
-  // Handle successful reply
   const handleReplySuccess = () => {
-    setIsReplying(false);
-    setShowReplies(true);
+    setShowReplyForm(false);
+    if (onCommentSuccess) {
+      onCommentSuccess(); // ✅ Trigger parent refetch
+    }
   };
 
-  // Toggle replies visibility
-  const toggleReplies = () => {
-    setShowReplies(!showReplies);
+  const handleCancelReply = () => {
+    setShowReplyForm(false);
   };
 
   return (
-    <div style={{ marginLeft: depth > 0 ? "clamp(1.5rem, 4vw, 3rem)" : "0" }}>
+    <div
+      style={{
+        background: "white",
+        borderRadius: "12px",
+        border: `2px solid ${currentBorderColor}20`,
+        borderLeft: `4px solid ${currentBorderColor}`,
+        padding: "1.25rem",
+        transition: "all 0.3s ease",
+        boxShadow: `0 2px 8px ${currentBorderColor}10`,
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.boxShadow = `0 4px 12px ${currentBorderColor}20`;
+        e.currentTarget.style.transform = "translateY(-2px)";
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.boxShadow = `0 2px 8px ${currentBorderColor}10`;
+        e.currentTarget.style.transform = "translateY(0)";
+      }}
+    >
+      {/* Comment Header */}
       <div
         style={{
-          borderLeft: `3px solid ${borderColor}`,
-          paddingLeft: "1rem",
-          paddingTop: "0.5rem",
-          paddingBottom: "0.5rem",
+          display: "flex",
+          alignItems: "flex-start",
+          gap: "0.75rem",
+          marginBottom: "0.75rem",
         }}
       >
-        {/* Comment Card */}
+        {/* Avatar */}
         <div
           style={{
-            background: "white",
-            borderRadius: "12px",
-            padding: "1rem 1.25rem",
-            border: "1px solid #f3f4f6",
-            boxShadow: "0 1px 3px rgba(0, 0, 0, 0.05)",
-            transition: "all 0.3s ease",
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.boxShadow = "0 4px 6px rgba(0, 0, 0, 0.07)";
-            e.currentTarget.style.borderColor = "#e5e7eb";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.boxShadow = "0 1px 3px rgba(0, 0, 0, 0.05)";
-            e.currentTarget.style.borderColor = "#f3f4f6";
+            width: "40px",
+            height: "40px",
+            borderRadius: "10px",
+            background: `linear-gradient(135deg, ${currentBorderColor}, ${currentBorderColor}dd)`,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexShrink: 0,
+            boxShadow: `0 4px 8px ${currentBorderColor}30`,
           }}
         >
-          {/* Comment Text */}
-          <p
-            style={{
-              color: "#374151",
-              marginBottom: "0.875rem",
-              whiteSpace: "pre-wrap",
-              wordBreak: "break-word",
-              fontSize: "0.9375rem",
-              lineHeight: "1.6",
-            }}
-          >
-            {comment.text}
-          </p>
+          <BiUser style={{ width: "20px", height: "20px", color: "white" }} />
+        </div>
 
-          {/* Comment Meta & Actions */}
+        {/* User Info */}
+        <div style={{ flex: 1, minWidth: 0 }}>
           <div
             style={{
               display: "flex",
               alignItems: "center",
-              justifyContent: "space-between",
+              gap: "0.5rem",
               flexWrap: "wrap",
-              gap: "0.75rem",
             }}
           >
-            {/* Timestamp */}
+            <span
+              style={{
+                fontWeight: "700",
+                fontSize: "0.9375rem",
+                color: "#1f2937",
+              }}
+            >
+              Anonymous User
+            </span>
+            <span
+              style={{
+                width: "4px",
+                height: "4px",
+                borderRadius: "50%",
+                background: "#d1d5db",
+              }}
+            />
             <div
               style={{
                 display: "flex",
                 alignItems: "center",
                 gap: "0.375rem",
-                fontSize: "0.75rem",
-                color: "#9ca3af",
               }}
             >
-              <BiTime style={{ width: "14px", height: "14px" }} />
-              <time dateTime={comment.createdAt}>
+              <BiTime
+                style={{ width: "14px", height: "14px", color: "#9ca3af" }}
+              />
+              <time
+                style={{
+                  fontSize: "0.8125rem",
+                  color: "#6b7280",
+                  fontWeight: "500",
+                }}
+                dateTime={comment.createdAt}
+              >
                 {formatRelativeTime(comment.createdAt)}
               </time>
             </div>
+          </div>
 
-            {/* Actions */}
+          {/* Depth Badge (optional, shows nesting level) */}
+          {depth > 0 && (
             <div
-              style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "0.25rem",
+                marginTop: "0.25rem",
+                padding: "0.125rem 0.5rem",
+                borderRadius: "6px",
+                background: currentBgColor,
+                fontSize: "0.6875rem",
+                fontWeight: "600",
+                color: currentBorderColor,
+              }}
             >
-              {/* Reply Button */}
-              {canReply && (
-                <button
-                  onClick={handleReplyClick}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "0.375rem",
-                    fontSize: "0.8125rem",
-                    color: isReplying ? "#dc2626" : borderColor,
-                    fontWeight: "600",
-                    background: "none",
-                    border: "none",
-                    cursor: "pointer",
-                    transition: "all 0.3s ease",
-                    padding: "0.25rem 0.5rem",
-                    borderRadius: "6px",
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = isReplying
-                      ? "#fee2e2"
-                      : `${borderColor}15`;
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = "none";
-                  }}
-                >
-                  <BiReply style={{ width: "16px", height: "16px" }} />
-                  {isReplying ? "Cancel" : "Reply"}
-                </button>
-              )}
-
-              {/* Show/Hide Replies Button */}
-              {hasChildren && (
-                <button
-                  onClick={toggleReplies}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "0.375rem",
-                    fontSize: "0.8125rem",
-                    color: "#6b7280",
-                    fontWeight: "600",
-                    background: "none",
-                    border: "none",
-                    cursor: "pointer",
-                    transition: "all 0.3s ease",
-                    padding: "0.25rem 0.5rem",
-                    borderRadius: "6px",
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = "#f3f4f6";
-                    e.currentTarget.style.color = "#374151";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = "none";
-                    e.currentTarget.style.color = "#6b7280";
-                  }}
-                >
-                  {showReplies ? (
-                    <BiChevronUp style={{ width: "16px", height: "16px" }} />
-                  ) : (
-                    <BiChevronDown style={{ width: "16px", height: "16px" }} />
-                  )}
-                  {comment.children.length}{" "}
-                  {comment.children.length === 1 ? "reply" : "replies"}
-                </button>
-              )}
+              Reply Level {depth}
             </div>
-          </div>
+          )}
         </div>
+      </div>
 
-        {/* Reply Form */}
-        {isReplying && (
-          <div style={{ marginTop: "0.75rem" }}>
-            <CommentForm
-              postId={postId}
-              parentId={comment._id}
-              onSuccess={handleReplySuccess}
-              onCancel={() => setIsReplying(false)}
-              placeholder="Write your reply..."
-              borderColor={borderColor}
-            />
-          </div>
-        )}
+      {/* Comment Text */}
+      <div
+        style={{
+          marginLeft: "3.25rem", // Align with avatar
+          marginBottom: "1rem",
+        }}
+      >
+        <p
+          style={{
+            fontSize: "0.9375rem",
+            lineHeight: "1.6",
+            color: "#374151",
+            whiteSpace: "pre-wrap",
+            wordBreak: "break-word",
+          }}
+        >
+          {comment.text}
+        </p>
+      </div>
 
-        {/* Nested Replies */}
-        {hasChildren && showReplies && (
+      {/* Comment Actions */}
+      <div
+        style={{
+          marginLeft: "3.25rem",
+          display: "flex",
+          alignItems: "center",
+          gap: "0.75rem",
+        }}
+      >
+        <button
+          onClick={handleReplyClick}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "0.375rem",
+            padding: "0.5rem 1rem",
+            borderRadius: "8px",
+            border: "none",
+            background: showReplyForm ? currentBorderColor : "transparent",
+            color: showReplyForm ? "white" : currentBorderColor,
+            fontSize: "0.8125rem",
+            fontWeight: "600",
+            cursor: "pointer",
+            transition: "all 0.3s ease",
+          }}
+          onMouseEnter={(e) => {
+            if (!showReplyForm) {
+              e.currentTarget.style.background = `${currentBorderColor}15`;
+            }
+          }}
+          onMouseLeave={(e) => {
+            if (!showReplyForm) {
+              e.currentTarget.style.background = "transparent";
+            }
+          }}
+        >
+          <BiReply style={{ width: "16px", height: "16px" }} />
+          <span>{showReplyForm ? "Cancel Reply" : "Reply"}</span>
+        </button>
+
+        {comment.replies && comment.replies.length > 0 && (
           <div
             style={{
-              marginTop: "0.75rem",
-              display: "flex",
-              flexDirection: "column",
-              gap: "0.75rem",
-            }}
-          >
-            {comment.children.map((childComment) => (
-              <CommentItem
-                key={childComment._id}
-                comment={childComment}
-                depth={depth + 1}
-                postId={postId}
-              />
-            ))}
-          </div>
-        )}
-
-        {/* Max Depth Warning */}
-        {!canReply && depth === UI_CONFIG.MAX_COMMENT_DEPTH && (
-          <div
-            style={{
-              marginTop: "0.75rem",
-              fontSize: "0.75rem",
-              color: "#9ca3af",
-              fontStyle: "italic",
               padding: "0.5rem 0.75rem",
-              background: "#f9fafb",
               borderRadius: "8px",
+              background: `${currentBorderColor}10`,
+              fontSize: "0.75rem",
+              fontWeight: "600",
+              color: currentBorderColor,
             }}
           >
-            Maximum nesting level reached
+            {comment.replies.length}{" "}
+            {comment.replies.length === 1 ? "reply" : "replies"}
           </div>
         )}
       </div>
+
+      {/* Reply Form */}
+      {showReplyForm && (
+        <div
+          style={{
+            marginLeft: "3.25rem",
+            marginTop: "1rem",
+            animation: "slideDown 0.3s ease-out",
+          }}
+        >
+          <CommentForm
+            postId={postId}
+            parentId={comment._id}
+            onSuccess={handleReplySuccess}
+            onCancel={handleCancelReply}
+            placeholder="Write your reply..."
+            borderColor={currentBorderColor}
+          />
+        </div>
+      )}
     </div>
   );
 };

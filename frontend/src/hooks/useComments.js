@@ -33,6 +33,14 @@ export const useFetchComments = (postId) => {
     fetchComments();
   }, [fetchComments]);
 
+  // ✅ UPDATE: React to data changes (optimistic updates)
+  useEffect(() => {
+    if (data) {
+      setComments(data);
+      setCommentTree(buildCommentTree(data));
+    }
+  }, [data]);
+
   useEffect(() => {
     if (status === "pending") {
       setLoading(true);
